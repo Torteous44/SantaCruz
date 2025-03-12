@@ -80,7 +80,6 @@ function App() {
         // Use environment variable for API URL with fallback
         const apiUrl =
           process.env.REACT_APP_API_URL || "http://localhost:5001/api";
-        console.log("Using API URL:", apiUrl);
 
         try {
           const response = await fetch(`${apiUrl}/photos?status=approved`, {
@@ -100,7 +99,6 @@ function App() {
           let photos: Photo[];
           try {
             photos = await response.json();
-            console.log(`Successfully fetched ${photos.length} photos`);
           } catch (jsonError: any) {
             console.error("Failed to parse JSON response:", jsonError);
             const text = await response.text();

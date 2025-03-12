@@ -1,10 +1,10 @@
-const { connectToDatabase } = require('./utils/db');
-const Photo = require('./models/Photo');
+const { connectToDatabase } = require('../utils/db');
+const Photo = require('../models/Photo');
 
-module.exports = async function handler(req, res) {
+module.exports = async (req, res) => {
   // Set CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   
   // Handle OPTIONS request for CORS
@@ -29,16 +29,8 @@ module.exports = async function handler(req, res) {
       
       // Build filter object
       const filter = {};
-      
-      // Only add status to filter if it's provided
-      if (status) {
-        filter.status = status;
-      }
-      
-      // Only add floorId to filter if it's provided
-      if (floorId) {
-        filter.floorId = floorId;
-      }
+      if (status) filter.status = status;
+      if (floorId) filter.floorId = floorId;
 
       console.log('MongoDB filter:', filter);
       
@@ -65,6 +57,6 @@ module.exports = async function handler(req, res) {
   // Return 405 Method Not Allowed for other HTTP methods
   else {
     res.setHeader('Allow', ['GET', 'POST', 'OPTIONS']);
-    return res.status(405).json({ error: `Method ${req.method} Not Allowed` });
+    return res.status(405).json({ error: `Method ${req.method} not allowed` });
   }
 } 

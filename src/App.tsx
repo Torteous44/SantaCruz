@@ -76,11 +76,15 @@ function App() {
         }
 
         setLoading(true);
-        const apiUrl = process.env.REACT_APP_API_URL || "/api";
-        console.log("Using API URL:", apiUrl); // Log the API URL being used
+        // Get the base URL - use the same origin in production, or env variable in development
+        const baseUrl = window.location.origin.includes("localhost")
+          ? process.env.REACT_APP_API_URL || "http://localhost:5001/api"
+          : `${window.location.origin}/api`;
+
+        console.log("Using API URL:", baseUrl);
 
         try {
-          const response = await fetch(`${apiUrl}/photos?status=approved`, {
+          const response = await fetch(`${baseUrl}/photos?status=approved`, {
             method: "GET",
             headers: {
               Accept: "application/json",
@@ -94,14 +98,22 @@ function App() {
             );
           }
 
-          const photos: Photo[] = await response.json();
-          console.log(`Successfully fetched ${photos.length} photos`);
+          let photos: Photo[];
+          try {
+            photos = await response.json();
+            console.log(`Successfully fetched ${photos.length} photos`);
+          } catch (jsonError: any) {
+            console.error("Failed to parse JSON response:", jsonError);
+            const text = await response.text();
+            console.error("Raw response:", text);
+            throw new Error(`Invalid JSON response: ${jsonError.message}`);
+          }
 
           // Group photos by floor
           const updatedFloors = archiveFloors.map((floor) => {
             const floorPhotos = photos
-              .filter((photo) => photo.floorId === floor.id)
-              .map((photo) => ({
+              .filter((photo: Photo) => photo.floorId === floor.id)
+              .map((photo: Photo) => ({
                 ...photo,
                 // Use imageUrl directly from response
                 imageUrl: photo.imageUrl || "",
@@ -128,6 +140,20 @@ function App() {
         setError(
           `Failed to load photos from server: ${err.message || "Unknown error"}`
         );
+
+        // If we're in production and the API is not found (404 error),
+        // just use the initial floor data silently without showing an error to users
+        if (
+          err.message &&
+          (err.message.includes("Status 404") ||
+            err.message.includes("Invalid JSON"))
+        ) {
+          console.log(
+            "API endpoint issue, using initial floor data as fallback"
+          );
+          setError(null); // Clear the error so it doesn't show to end users
+          // Keep using initialFloors data that was loaded at startup
+        }
       } finally {
         setLoading(false);
       }

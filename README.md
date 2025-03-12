@@ -129,3 +129,48 @@ The application uses Cloudflare Images for storing and serving photos:
 ## Security Note
 
 Remember to regenerate the Cloudflare API keys before deploying to production, as the current keys in the repository have been exposed.
+
+# Santa Cruz Archive - Frontend
+
+This is the frontend for the Santa Cruz Archive application. It's a React application that displays historical photographs of Santa Cruz.
+
+## Setup
+
+1. Clone this repository
+2. Install dependencies: `npm install`
+3. Configure the environment:
+   - Copy `.env.example` to `.env.development.local` for local development
+   - Set `REACT_APP_API_URL` to your backend API URL
+4. Start the development server: `npm start`
+
+## Environment Configuration
+
+The application uses environment variables for configuration:
+
+- `REACT_APP_API_URL`: URL of the backend API (e.g., `http://localhost:5001/api` or `https://api.example.com/api`)
+- `REACT_APP_USE_MOCK_DATA`: Set to `true` to use mock data when no backend is available
+
+## Building for Production
+
+1. Update `.env.production` with your production backend URL
+2. Run `npm run build`
+3. Deploy the contents of the `build` directory to your web hosting service
+
+## External Backend
+
+This frontend expects an external backend service with the following endpoints:
+
+- `GET /api/photos?status=approved`: Get approved photos
+- `GET /api/healthcheck`: Check API health status
+
+For more information on setting up the backend, refer to the backend repository documentation.
+
+## Project Structure
+
+- `src/`: Source code
+  - `components/`: React components
+  - `types/`: TypeScript type definitions
+  - `utils/`: Utility functions
+  - `styles/`: CSS styles
+  - `App.tsx`: Main application component
+- `public/`: Static assets

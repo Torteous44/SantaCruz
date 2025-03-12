@@ -15,19 +15,13 @@
     "react-dom": "^19.0.0",
     "react-scripts": "5.0.1",
     "typescript": "^4.9.5",
-    "web-vitals": "^2.1.4",
-    "express": "^4.18.2"
+    "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "server": "cd server && npm run dev",
-    "dev": "concurrently \"npm run server\" \"npm start\"",
-    "start:prod": "cd server && npm start",
-    "heroku-postbuild": "npm run build",
-    "deploy": "npm run build && npm run start:prod"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
@@ -47,7 +41,6 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:5001",
   "devDependencies": {
     "concurrently": "^8.2.2"
   }

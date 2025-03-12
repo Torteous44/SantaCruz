@@ -76,15 +76,14 @@ function App() {
         }
 
         setLoading(true);
-        // Get the base URL - use the same origin in production, or env variable in development
-        const baseUrl = window.location.origin.includes("localhost")
-          ? process.env.REACT_APP_API_URL || "http://localhost:5001/api"
-          : `${window.location.origin}/api`;
 
-        console.log("Using API URL:", baseUrl);
+        // Use environment variable for API URL with fallback
+        const apiUrl =
+          process.env.REACT_APP_API_URL || "http://localhost:5001/api";
+        console.log("Using API URL:", apiUrl);
 
         try {
-          const response = await fetch(`${baseUrl}/photos?status=approved`, {
+          const response = await fetch(`${apiUrl}/photos?status=approved`, {
             method: "GET",
             headers: {
               Accept: "application/json",

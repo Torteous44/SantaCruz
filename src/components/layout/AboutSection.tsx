@@ -29,6 +29,17 @@ const AboutSection: React.FC<AboutSectionProps> = ({ isOpen, content }) => {
               uploading photographs of people without their permission.
             </p>
           </div>
+
+          <div className="about-rules">
+            <h3>RULES FOR CONTRIBUTING</h3>
+            <ul>
+              <li>Photos must meet a minimal aesthetic standard.</li>
+              <li>Images should focus on the architecture and space.</li>
+              <li>
+                Artistic interpretation is welcome, but clarity is essential.
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </section>

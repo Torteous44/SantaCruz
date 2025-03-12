@@ -117,11 +117,41 @@ button {
   font-size: 0.8rem;
   font-weight: 400;
   text-transform: uppercase;
-  font-family: var(--body-font); 
+  font-family: var(--body-font);
+  position: relative;
+  padding-bottom: 2px;
+  transition: all var(--transition-speed) ease;
+  cursor: pointer;
 }
+
+.nav-link:after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 1px;
+  bottom: 0;
+  left: 0;
+  background-color: var(--text-color);
+  transition: width var(--transition-speed) ease;
+}
+
+.nav-link.active:after {
+  width: 100%;
+}
+
+.nav-link:hover:after {
+  width: 100%;
+  opacity: 0.5;
+}
+
+.nav-link.active:hover:after {
+  opacity: 1;
+}
+
 .nav-link:active {
   font-weight: 450;
 }
+
 /* About Section with Animation */
 .about-section {
   background-color: transparent;
@@ -129,21 +159,21 @@ button {
   transition: max-height var(--transition-speed) ease, 
               padding var(--transition-speed) ease,
               opacity var(--transition-speed) ease;
-  width: 50%;
-  margin: 0 auto;
+  width: 100%;
+  position: relative;
 }
 
 .about-section.open {
   max-height: 1500px; /* Large enough to contain content */
-  padding: 40px 20px;
+  padding: 40px 0;
   opacity: 1;
   background-color: var(--primary-bg);
-  border-bottom: none;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .about-section.closed {
   max-height: 0;
-  padding: 0 20px;
+  padding: 0;
   opacity: 0;
   border-bottom: none;
 }
@@ -153,6 +183,8 @@ button {
   margin: 0 auto;
   display: flex;
   gap: 40px;
+  width: 50%;
+  padding: 0 20px;
 }
 
 .about-left {
@@ -188,8 +220,44 @@ button {
 
 .about-content p {
   margin-bottom: 15px;
-  font-size: 0.9rem;
-  font-family: 'Libre Franklin', sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.about-disclaimer {
+  margin-top: 30px;
+}
+
+.about-rules {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.about-rules ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.about-rules li {
+  position: relative;
+  padding-left: 20px;
+  margin-bottom: 12px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.about-rules li:before {
+  content: "—";
+  position: absolute;
+  left: 0;
+  color: var(--text-color);
+  opacity: 0.7;
+}
+
+.about-rules li:last-child {
+  margin-bottom: 0;
 }
 
 .about-content ul {
@@ -459,6 +527,12 @@ button {
   
   .about-content {
     flex-direction: column;
+    width: 85%;
+  }
+  
+  .about-rules li {
+    padding-left: 18px;
+    margin-bottom: 10px;
   }
 }
 
@@ -513,6 +587,20 @@ button {
   
   .photo-card {
     margin-bottom: 15px;
+  }
+  
+  .about-content {
+    width: 95%;
+  }
+  
+  .about-rules h3 {
+    font-size: 0.9rem;
+  }
+  
+  .about-rules li {
+    font-size: 0.9rem;
+    padding-left: 15px;
+    margin-bottom: 8px;
   }
 }
 

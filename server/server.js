@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://localhost:5001','https://santacruz.onrender.com'],
+  origin: ['http://localhost:3000', 'http://localhost:5001','https://santa-cruz-kappa.vercel.app/'],
   credentials: true
 }));
 app.use(express.json());
@@ -71,6 +71,22 @@ app.use('/api/admin', adminRoutes);
 // Basic test route
 app.get('/api/test', (req, res) => {
   res.json({ message: 'Server is running' });
+});
+
+// Root diagnostic route - will be helpful to check if server is running at all
+app.get('/', (req, res) => {
+  res.json({
+    message: 'Santa Cruz Archive API is running',
+    apiRoutes: [
+      '/api/test - Basic test endpoint',
+      '/api/healthcheck - Health check endpoint',
+      '/api/photos - Photos API',
+      '/api/photos/debug - Photos API debug endpoint',
+      '/api/admin - Admin API'
+    ],
+    environment: process.env.NODE_ENV || 'development',
+    time: new Date().toISOString()
+  });
 });
 
 // Add a more comprehensive healthcheck endpoint

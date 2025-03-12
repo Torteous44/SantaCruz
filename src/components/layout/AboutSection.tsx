@@ -38,6 +38,10 @@ const AboutSection: React.FC<AboutSectionProps> = ({ isOpen, content }) => {
               <li>
                 Artistic interpretation is welcome, but clarity is essential.
               </li>
+              <li>
+                Images will be reviewed by the site administrators before being
+                published.
+              </li>
             </ul>
           </div>
         </div>

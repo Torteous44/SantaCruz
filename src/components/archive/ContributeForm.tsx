@@ -297,6 +297,9 @@ const ContributeForm: React.FC<
               }
               required
             />
+            <small className="helper-text">
+              Supported formats: JPEG, PNG, GIF, WebP, AVIF, SVG (max 10MB)
+            </small>
             {localImageUrl && (
               <div className="image-preview">
                 <img src={localImageUrl} alt="Preview" />

@@ -11,7 +11,7 @@
 
 .contribute-section.open {
   max-height: 1000px; /* Large enough to contain form */
-  padding: 40px 20px;
+  padding: 30px 20px; /* Reduced padding */
   opacity: 1;
 }
 
@@ -24,7 +24,7 @@
 }
 
 .contribute-container {
-  max-width: 600px;
+  max-width: 580px; /* Slightly reduced max-width */
   margin: 0 auto;
   opacity: 0;
   transition: opacity 0.3s ease 0.1s; /* Slight delay to start after section begins opening */
@@ -40,10 +40,10 @@
 }
 
 .contribute-section h2 {
-  margin-bottom: 30px;
+  margin-bottom: 25px; /* Reduced margin */
   text-align: center;
-  font-size: 1.2rem;
-  letter-spacing: 2px;
+  font-size: 0.95rem; /* Smaller font size */
+  letter-spacing: 1.5px;
   text-transform: uppercase;
   font-weight: 400;
 }
@@ -51,27 +51,27 @@
 /* Removed redundant about-rules styling as it's now in global.css */
 
 .success-message {
-  padding: 15px;
-  margin-bottom: 20px;
+  padding: 12px;
+  margin-bottom: 15px;
   background-color: transparent;
   color: #155724;
   border-left: 2px solid #155724;
-  font-size: 0.9rem;
+  font-size: 0.85rem; /* Smaller font */
   letter-spacing: 0.5px;
 }
 
 .error-message {
-  padding: 15px;
-  margin-bottom: 20px;
+  padding: 12px;
+  margin-bottom: 15px;
   background-color: transparent;
   color: #721c24;
   border-left: 2px solid #721c24;
-  font-size: 0.9rem;
+  font-size: 0.85rem; /* Smaller font */
   letter-spacing: 0.5px;
 }
 
 .retry-option {
-  margin-top: 12px;
+  margin-top: 10px;
   text-align: left;
 }
 
@@ -79,8 +79,8 @@
   background-color: transparent;
   border: 1px solid #721c24;
   color: #721c24;
-  padding: 6px 12px;
-  font-size: 0.8rem;
+  padding: 5px 10px;
+  font-size: 0.75rem; /* Smaller font */
   letter-spacing: 1px;
   text-transform: uppercase;
   cursor: pointer;
@@ -93,16 +93,16 @@
 }
 
 .form-group {
-  margin-bottom: 25px;
+  margin-bottom: 22px; /* Slightly reduced margin */
   position: relative;
   transition: all 0.3s ease;
 }
 
 .form-group label {
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: 6px; /* Reduced margin */
   font-weight: 400;
-  font-size: 0.85rem;
+  font-size: 0.8rem; /* Smaller font */
   letter-spacing: 1px;
   text-transform: uppercase;
   color: var(--text-color);
@@ -112,19 +112,19 @@
 .form-group input,
 .form-group select {
   width: 100%;
-  padding: 10px 2px;
+  padding: 8px 2px; /* Reduced padding */
   border: none;
   border-bottom: 1px solid var(--border-color);
   font-family: inherit;
-  font-size: 0.95rem;
+  font-size: 0.9rem; /* Slightly smaller font */
   background-color: transparent;
   transition: border-color 0.3s ease, background-color 0.3s ease;
 }
 
 .form-group input[type="file"] {
   border: none;
-  padding: 5px 0;
-  font-size: 0.9rem;
+  padding: 3px 0; /* Reduced padding */
+  font-size: 0.85rem; /* Smaller font */
   opacity: 1; /* Ensure file input is always visible */
   transition: none; /* Remove transitions from file input */
 }
@@ -148,9 +148,9 @@
 
 .form-group .helper-text {
   display: block;
-  font-size: 0.8rem;
+  font-size: 0.75rem; /* Smaller font */
   color: #666;
-  margin-top: 5px;
+  margin-top: 4px; /* Reduced margin */
   font-style: italic;
   opacity: 0.8;
 }
@@ -159,26 +159,26 @@
   min-height: 100px;
   resize: vertical;
   width: 100%;
-  padding: 10px 2px;
+  padding: 8px 2px; /* Reduced padding */
   border: none;
   border-bottom: 1px solid var(--border-color);
   font-family: inherit;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   background-color: transparent;
 }
 
 .form-submit {
   text-align: center;
-  margin-top: 30px;
+  margin-top: 25px; /* Reduced margin */
 }
 
 .form-submit button {
-  padding: 10px 25px;
+  padding: 8px 20px; /* Reduced padding */
   background-color: transparent;
   color: var(--text-color);
   border: 1px solid var(--text-color);
-  font-size: 0.85rem;
-  letter-spacing: 2px;
+  font-size: 0.75rem; /* Smaller font */
+  letter-spacing: 1.5px;
   text-transform: uppercase;
   transition: all 0.3s ease;
   cursor: pointer;
@@ -198,18 +198,18 @@
 /* Mobile view adjustments */
 @media (max-width: 600px) {
   .contribute-section.open {
-    padding: 20px;
+    padding: 20px 15px; /* Further reduced padding on mobile */
   }
   
   .form-group label {
-    font-size: 0.8rem;
+    font-size: 0.75rem; /* Even smaller on mobile */
   }
   
   /* Removed redundant about-rules mobile styling as it's now in global.css */
 }
 
 .image-preview {
-  margin-top: 15px;
+  margin-top: 12px; /* Reduced margin */
   max-width: 100%;
   border: none;
   overflow: hidden;
@@ -220,7 +220,7 @@
   width: 100%;
   height: auto;
   display: block;
-  max-height: 250px;
+  max-height: 220px; /* Slightly reduced max height */
   object-fit: contain;
   background-color: transparent;
   opacity: 0.9;

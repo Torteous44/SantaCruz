@@ -16,6 +16,8 @@ const ContributeForm: React.FC<
   const [error, setError] = useState("");
   const [availableRooms, setAvailableRooms] = useState<Room[]>([]);
   const [localImageUrl, setLocalImageUrl] = useState<string | null>(null);
+  const [isServerError, setIsServerError] = useState(false);
+  const [retryCount, setRetryCount] = useState(0);
 
   // Update available rooms when floor selection changes
   useEffect(() => {
@@ -56,6 +58,7 @@ const ContributeForm: React.FC<
 
     setIsSubmitting(true);
     setError("");
+    setIsServerError(false);
 
     try {
       // Create FormData object for file upload
@@ -67,26 +70,64 @@ const ContributeForm: React.FC<
       }
       formData.append("imageFile", imageFile);
 
-      // Send data to server
+      // Send data to server with timeout
       const apiUrl = process.env.REACT_APP_API_URL || "/api";
-      const response = await fetch(`${apiUrl}/photos/upload`, {
-        method: "POST",
-        body: formData,
-      });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || "Failed to upload photo");
+      // Create a controller to be able to abort the fetch if it takes too long
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 second timeout
+
+      let response;
+      try {
+        response = await fetch(`${apiUrl}/photos/upload`, {
+          method: "POST",
+          body: formData,
+          signal: controller.signal,
+        });
+
+        clearTimeout(timeoutId);
+      } catch (fetchError) {
+        clearTimeout(timeoutId);
+        // Network error, CORS error, or abort error
+        console.error("Fetch error:", fetchError);
+        throw new Error(
+          "Network error: Unable to connect to the server. Your contribution will be saved locally for now."
+        );
       }
 
-      const data = await response.json();
+      if (!response.ok) {
+        let errorMessage = "Failed to upload photo. ";
+
+        try {
+          const errorData = await response.json();
+          errorMessage += errorData.error || "";
+        } catch (jsonError) {
+          // If we can't parse the JSON, just use status text
+          errorMessage += response.statusText || "Server error occurred.";
+        }
+
+        // Mark as server error
+        setIsServerError(true);
+        throw new Error(errorMessage);
+      }
+
+      let data;
+      try {
+        data = await response.json();
+      } catch (jsonError) {
+        console.error("Error parsing server response:", jsonError);
+        setIsServerError(true);
+        throw new Error(
+          "The server responded, but with invalid data. Your contribution will be saved locally for now."
+        );
+      }
 
       // Get the Cloudflare URL from response or use local URL for preview
-      const photoUrl = data.photo.imageUrl || localImageUrl;
+      const photoUrl = data.photo?.imageUrl || localImageUrl;
 
       // Call the local onSubmit function for immediate display
       const tempPhoto = {
-        id: data.photo._id || `temp-${Date.now()}`,
+        id: data.photo?._id || `temp-${Date.now()}`,
         imageUrl: photoUrl || "", // Use the Cloudflare URL
         contributor,
         date: new Date().toLocaleDateString("en-US", {
@@ -111,13 +152,57 @@ const ContributeForm: React.FC<
       setTimeout(() => setSuccess(false), 3000);
     } catch (err) {
       console.error("Error submitting form:", err);
-      setError(
-        err instanceof Error
-          ? err.message
-          : "Error submitting form. Please try again."
-      );
+
+      // If this is a server error, we still want to show the user their contribution locally
+      if (isServerError && localImageUrl) {
+        // Create a local temporary photo object
+        const localTempPhoto = {
+          id: `local-temp-${Date.now()}`,
+          imageUrl: localImageUrl,
+          contributor,
+          date: new Date().toLocaleDateString("en-US", {
+            month: "short",
+            year: "numeric",
+          }),
+          floorId,
+          roomId: roomId || undefined,
+          isLocalOnly: true, // Flag to indicate this is only saved locally
+        };
+
+        // Submit the local copy to show the user
+        onSubmit(localTempPhoto);
+
+        // Clear the form
+        setContributor("");
+        setFloorId("");
+        setRoomId("");
+        setImageFile(null);
+        setLocalImageUrl(null);
+
+        // Show success with caveat
+        setError(
+          "The server is currently experiencing issues, but your contribution has been saved locally and will be displayed. It will be submitted to the server when the connection is restored."
+        );
+      } else {
+        setError(
+          err instanceof Error
+            ? err.message
+            : "Error submitting form. Please try again."
+        );
+      }
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  // Option to retry submission if there was a server error
+  const handleRetry = () => {
+    if (retryCount < 3) {
+      setRetryCount(retryCount + 1);
+      setError("Retrying submission...");
+      handleSubmit(new Event("submit") as unknown as FormEvent);
+    } else {
+      setError("Maximum retry attempts reached. Please try again later.");
     }
   };
 
@@ -136,7 +221,18 @@ const ContributeForm: React.FC<
           </div>
         )}
 
-        {error && <div className="error-message">{error}</div>}
+        {error && (
+          <div className="error-message">
+            {error}
+            {isServerError && retryCount < 3 && (
+              <div className="retry-option">
+                <button onClick={handleRetry} className="retry-button">
+                  Retry Submission
+                </button>
+              </div>
+            )}
+          </div>
+        )}
 
         <form onSubmit={handleSubmit} className="contribute-form">
           <div className="form-group">

@@ -70,6 +70,28 @@
   letter-spacing: 0.5px;
 }
 
+.retry-option {
+  margin-top: 12px;
+  text-align: left;
+}
+
+.retry-button {
+  background-color: transparent;
+  border: 1px solid #721c24;
+  color: #721c24;
+  padding: 6px 12px;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 5px;
+}
+
+.retry-button:hover {
+  background-color: rgba(114, 28, 36, 0.1);
+}
+
 .form-group {
   margin-bottom: 25px;
   position: relative;

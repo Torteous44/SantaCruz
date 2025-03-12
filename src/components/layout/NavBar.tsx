@@ -35,7 +35,7 @@ const NavBar: React.FC<NavBarProps> = ({
       </div>
 
       <div className="navbar-title">
-        <h1>Archivo de Santa Cruz la Real</h1>
+        <h1>Archivo fotográfico de Santa Cruz la Real</h1>
       </div>
 
       <div className="navbar-right">

@@ -5,6 +5,7 @@ const path = require('path');
 const fs = require('fs');
 const Photo = require('../models/Photo');
 const cloudflare = require('../utils/cloudflare');
+const mongoose = require('mongoose');
 
 // Configure multer for file storage
 const storage = multer.diskStorage({
@@ -112,6 +113,8 @@ router.get('/', async (req, res) => {
   try {
     const { status, floorId } = req.query;
     
+    console.log(`GET /api/photos request received with params:`, { status, floorId });
+    
     // Build filter object
     const filter = {};
     
@@ -125,11 +128,44 @@ router.get('/', async (req, res) => {
       filter.floorId = floorId;
     }
 
+    console.log('MongoDB filter:', filter);
+    console.log('MongoDB URI:', process.env.MONGODB_URI.substring(0, 20) + '...');
+    
     const photos = await Photo.find(filter).sort({ submittedAt: -1 });
+    console.log(`Found ${photos.length} photos matching the criteria`);
+    
     res.json(photos);
   } catch (err) {
     console.error('Error fetching photos:', err);
     res.status(500).json({ error: 'Server error fetching photos' });
+  }
+});
+
+// @route   GET /api/photos/debug
+// @desc    Debug endpoint to check API accessibility
+// @access  Public
+router.get('/debug', (req, res) => {
+  try {
+    const debugInfo = {
+      timestamp: new Date().toISOString(),
+      environment: process.env.NODE_ENV,
+      mongoStatus: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected',
+      apiEndpoint: '/api/photos',
+      availableEndpoints: [
+        { method: 'GET', path: '/api/photos', description: 'Get all photos with optional filters' },
+        { method: 'GET', path: '/api/photos/debug', description: 'This debug endpoint' },
+        { method: 'POST', path: '/api/photos/upload', description: 'Upload a new photo' }
+      ],
+      serverInfo: {
+        platform: process.platform,
+        nodeVersion: process.version
+      }
+    };
+    
+    res.json(debugInfo);
+  } catch (err) {
+    console.error('Error in debug endpoint:', err);
+    res.status(500).json({ error: 'Error in debug endpoint', message: err.message });
   }
 });
 

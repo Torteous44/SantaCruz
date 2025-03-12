@@ -73,6 +73,34 @@ app.get('/api/test', (req, res) => {
   res.json({ message: 'Server is running' });
 });
 
+// Add a more comprehensive healthcheck endpoint
+app.get('/api/healthcheck', (req, res) => {
+  const healthData = {
+    uptime: process.uptime(),
+    timestamp: Date.now(),
+    environment: process.env.NODE_ENV,
+    mongodbConnected: mongoose.connection.readyState === 1,
+    apiVersion: '1.0',
+    serverTime: new Date().toISOString()
+  };
+  
+  console.log('Health check performed:', healthData);
+  
+  if (!healthData.mongodbConnected) {
+    return res.status(503).json({
+      ...healthData,
+      status: 'Service Unavailable',
+      message: 'Database connection is not established'
+    });
+  }
+  
+  res.json({
+    ...healthData,
+    status: 'OK',
+    message: 'Service is healthy'
+  });
+});
+
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
@@ -81,9 +109,30 @@ app.use((err, req, res, next) => {
   });
 });
 
+// In production, serve the frontend from the build directory
+if (process.env.NODE_ENV === 'production') {
+  console.log('Running in production mode - serving static files from build directory');
+  
+  // Serve static files from the React build directory (one level up from server)
+  const buildPath = path.join(__dirname, '..', 'build');
+  app.use(express.static(buildPath));
+
+  // For any routes that don't start with /api/, serve the React app
+  app.get('*', (req, res, next) => {
+    // Skip API routes and let them be handled by the API route handlers
+    if (req.path.startsWith('/api/')) {
+      return next();
+    }
+    console.log(`Serving React app for path: ${req.path}`);
+    res.sendFile(path.join(buildPath, 'index.html'));
+  });
+}
+
 // Start server
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
+  console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+  console.log(`MongoDB connected: ${mongoose.connection.readyState === 1}`);
 });
 
 module.exports = app; 

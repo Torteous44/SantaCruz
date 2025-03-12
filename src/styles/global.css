@@ -1,0 +1,487 @@
+/* Base styles */
+:root {
+  --primary-bg: #f5f5f5;
+  --secondary-bg: #e0e0e0;
+  --border-color: #c0c0c0;
+  --text-color: #333333;
+  --link-color: #000000;
+  --header-height: 60px;
+  --footer-height: 60px;
+  --transition-speed: 0.3s;
+  --heading-font: 'Cormorant Garamond', serif;
+  --body-font: 'Libre Franklin', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  color: var(--text-color);
+  background-color: var(--primary-bg);
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+}
+
+a {
+  color: var(--link-color);
+  text-decoration: none;
+}
+
+
+button {
+  cursor: pointer;
+  font-family: inherit;
+}
+
+/* Layout */
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+/* Main content container */
+.main-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: 100%;
+  height: calc(100vh - var(--header-height)); /* Full height minus header */
+}
+
+/* Navbar */
+.navbar {
+  height: var(--header-height);
+  background-color: var(--primary-bg);
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  position: relative; /* Ensure proper stacking */
+}
+
+.navbar-left {
+  display: flex;
+  gap: 20px;
+  width: 180px; /* Fixed width to match the right side */
+  justify-content: flex-start;
+  z-index: 10; /* Ensure buttons are clickable */
+  padding-top: 3px;
+}
+
+.navbar-title {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+  text-align: center;
+  z-index: 1;
+}
+
+.navbar-title h1 {
+  font-family: 'Newsreader', serif;
+  font-optical-sizing: auto;
+  font-weight: 300 !important;
+  font-style: normal;
+  font-size: 1.8rem;
+  letter-spacing: 1px;
+  display: inline-block; /* Make it only as wide as the text */
+  margin: 0;
+  line-height: -1.2;
+  padding-top: 6px;
+}
+
+.navbar-right {
+  width: 180px; /* Fixed width to match the left side */
+  display: flex;
+  justify-content: flex-end;
+  z-index: 10; /* Ensure buttons are clickable */
+}
+
+.nav-link {
+  background: none;
+  border: none;
+  color: var(--link-color);
+  font-size: 0.8rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  font-family: var(--body-font); 
+}
+.nav-link:active {
+  font-weight: 450;
+}
+/* About Section with Animation */
+.about-section {
+  background-color: var(--primary-bg);
+  border-bottom: 1px solid var(--border-color);
+  overflow: hidden;
+  transition: max-height var(--transition-speed) ease, 
+              padding var(--transition-speed) ease,
+              opacity var(--transition-speed) ease;
+  width: 100%;
+}
+
+.about-section.open {
+  max-height: 1500px; /* Large enough to contain content */
+  padding: 40px 20px;
+  opacity: 1;
+}
+
+.about-section.closed {
+  max-height: 0;
+  padding: 0 20px;
+  opacity: 0;
+  border-bottom: none;
+}
+
+.about-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  gap: 40px;
+}
+
+.about-left {
+  flex: 2;
+}
+
+.about-right {
+  flex: 1;
+}
+
+.about-content h2 {
+  text-transform: uppercase;
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  font-weight: 400;
+}
+
+.about-content h3 {
+  text-transform: uppercase;
+  font-size: 1rem;
+  margin: 20px 0 10px;
+  font-weight: 400;
+}
+
+.about-content h4 {
+  font-size: 0.9rem;
+  margin: 15px 0 5px;
+  font-weight: 400;
+}
+
+.about-content p {
+  margin-bottom: 15px;
+  font-size: 0.9rem;
+}
+
+.about-content ul {
+  list-style: none;
+}
+
+.about-content li {
+  margin-bottom: 5px;
+}
+
+/* Floor Plans Navigation */
+.floor-plans-nav {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  gap: 0;
+  padding: 0;
+  background-color: var(--primary-bg);
+  flex-wrap: nowrap; /* Prevent wrapping to maintain column integrity */
+  border-bottom: 1px solid var(--border-color);
+}
+
+.floor-name{
+  font-size: 0.9rem !important;
+  pointer-events: none !important;
+  text-transform: uppercase;
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 400 !important;
+}
+
+/* Floor Columns */
+.floor-columns {
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+  flex: 1;
+  background-color: var(--primary-bg);
+  height: calc(100vh - var(--header-height)); /* Full viewport height minus header */
+}
+
+.floor-plan-container {
+  flex: 1;
+  width: 20%;
+  max-width: 20%;
+  min-width: 20%;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--border-color);
+  position: relative;
+  height: calc(100vh - var(--header-height)); /* Full height minus header */
+  overflow-y: auto; /* Enable scrolling within each floor container */
+  scroll-behavior: smooth; /* Add smooth scrolling */
+}
+
+.floor-plan-container:last-child {
+  border-right: none;
+}
+
+.floor-plan-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 15px 5px;
+  background-color: var(--primary-bg);
+  transition: background-color 0.2s ease;
+  border-bottom: 1px solid var(--border-color);
+  position: sticky;
+  top: 0;
+  z-index: 10; /* Ensure it stays above scrolling content */
+  width: 100%;
+}
+
+.floor-plan-item:hover, .floor-plan-item.expanded {
+  background-color: var(--secondary-bg);
+}
+
+.floor-plan-item.expanded {
+  border-bottom: 0px solid var(--border-color);
+}
+
+.floor-name {
+  font-size: 1rem;
+  text-transform: uppercase;
+  text-align: center;
+  font-weight: 500;
+}
+
+/* Rooms section below floor plan navigation */
+.floor-rooms {
+  background-color: var(--secondary-bg);
+  overflow: visible;
+  transition: max-height 0.2s linear,
+              padding 0s linear,
+              opacity 0s linear;
+  will-change: max-height, padding, opacity;
+  border-bottom: 1px solid var(--border-color);
+  position: sticky;
+  top: 49px; /* Just below the floor-plan-item */
+  z-index: 100; /* Increase z-index to ensure it appears over images */
+  width: 100%;
+}
+
+/* Default collapsed state */
+.floor-rooms.collapsed {
+  max-height: 0;
+  padding: 0 15px;
+  opacity: 0;
+  border-bottom: none;
+}
+
+/* Expanded state */
+.floor-rooms.expanded {
+  max-height: 1000px;
+  padding: 15px;
+  opacity: 1;
+  height: auto;
+}
+
+.floor-rooms h3 {
+  font-family: var(--body-font) !important;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  font-weight: 450;
+  letter-spacing: 1px;
+  color: #333;
+  padding-bottom: 5px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.room-list {
+  list-style: none;
+  padding: 0;
+  font-family: var(--body-font) !important;
+  color: #333333;
+  font-size: 0.7rem !important;
+  transition: max-height 0.2s linear,
+  padding 0s linear,
+  opacity 0s linear;
+  will-change: max-height, padding, opacity;
+}
+
+.room-item {
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  font-size: 0.8rem;
+  transition: background-color 0.2s ease;
+}
+
+.room-item:hover {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.room-item:last-child {
+  border-bottom: none;
+}
+
+.floor-photos {
+  padding: 10px;
+  min-height: 100px; /* Ensure there's space for content */
+  z-index: 1; /* Lower z-index than the expanded rooms */
+}
+
+.no-photos {
+  padding: 20px;
+  text-align: center;
+  color: #888;
+  font-size: 0.8rem;
+}
+
+/* Photo Card */
+.photo-card {
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.photo-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.photo-info {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0;
+  font-size: 0.65rem;
+  color: #888;
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    height: auto;
+    padding: 10px;
+    gap: 10px;
+  }
+  
+  .navbar-left, .navbar-right {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .navbar-title {
+    position: relative;
+    width: 100%;
+    margin: 15px 0;
+  }
+  
+  .about-content {
+    flex-direction: column;
+  }
+}
+
+/* Mobile view adjustments - stack vertically below 600px */
+@media (max-width: 600px) {
+  .floor-plans-nav {
+    flex-direction: column;
+    border-bottom: none;
+  }
+  
+  .floor-plan-container {
+    width: 100%;
+    flex: none;
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+  }
+  
+  .floor-plan-item {
+    width: 100%;
+    padding: 12px;
+  }
+  
+  .floor-rooms {
+    padding: 10px 15px;
+    border-bottom: none;
+  }
+  
+  .floor-plans-nav .floor-name {
+    font-size: 1rem;
+  }
+  
+  .floor-columns {
+    flex-direction: column;
+    overflow: visible; /* Allow scrolling of the entire page */
+  }
+  
+  .floor-column {
+    flex: 0 0 auto;
+    width: 100%;
+    max-width: 100%;
+    min-width: 100%;
+    height: auto; /* Allow content to determine height */
+    max-height: 500px; /* Set a maximum height for scrolling */
+    overflow-y: auto; /* Keep the vertical scrolling */
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+  }
+  
+  .floor-photos {
+    padding: 10px;
+  }
+  
+  .photo-card {
+    margin-bottom: 15px;
+  }
+}
+
+/* Loading indicator */
+.loading-indicator {
+  text-align: center;
+  padding: 20px;
+  font-size: 1rem;
+  color: #666;
+  background-color: #f9f9f9;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  margin: 20px auto;
+  max-width: 400px;
+}
+
+.archive-error {
+  text-align: center;
+  padding: 15px;
+  margin: 20px auto;
+  max-width: 600px;
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+  border-radius: 4px;
+}
+
+/* Add additional style to ensure expanded state works well */
+.floor-rooms.expanded + .floor-photos {
+  margin-top: 10px;
+  padding-top: 15px;
+  position: relative;
+}

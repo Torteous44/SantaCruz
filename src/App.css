@@ -1,0 +1,134 @@
+.App {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Header styling */
+.header {
+  background-color: #f8f8f8;
+  padding: 20px;
+  border-bottom: 1px solid #eaeaea;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  letter-spacing: 1px;
+}
+
+.nav-controls {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-controls button, .nav-controls a {
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  color: #333;
+  font-size: 1rem;
+}
+
+.nav-controls button:hover, .nav-controls a:hover {
+  text-decoration: underline;
+}
+
+/* About section styling */
+.about-section {
+  background-color: #f8f8f8;
+  padding: 20px;
+  border-bottom: 1px solid #eaeaea;
+  text-align: left;
+}
+
+/* Floor columns styling */
+.floor-columns {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  flex: 1;
+}
+
+.column {
+  flex: 1 0 300px;
+  border-right: 1px solid #eaeaea;
+  min-width: 300px;
+  max-width: 400px;
+  height: calc(100vh - 150px); /* Adjust based on header and footer height */
+  display: flex;
+  flex-direction: column;
+}
+
+.column h2 {
+  margin: 0;
+  padding: 10px;
+  background-color: #f8f8f8;
+  border-bottom: 1px solid #eaeaea;
+  font-size: 1rem;
+}
+
+.scrollable-area {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px;
+}
+
+/* Footer styling */
+.footer {
+  background-color: #f8f8f8;
+  padding: 20px;
+  border-top: 1px solid #eaeaea;
+}
+
+/* Placeholder for floor plan images */
+.floor-plan {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+/* Placeholder for photo cards */
+.photo-card {
+  margin-bottom: 20px;
+  border: 1px solid #d3d3d3;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.photo-card img {
+  width: 100%;
+  height: auto;
+}
+
+.photo-info {
+  padding: 10px;
+  text-align: left;
+}
+
+.photo-info p {
+  margin: 0;
+  font-size: 0.6rem;
+}
+
+/* Make the layout responsive */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .column {
+    min-width: 100%;
+  }
+  
+  .floor-columns {
+    flex-direction: column;
+    overflow-x: hidden;
+  }
+}

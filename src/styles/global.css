@@ -347,7 +347,7 @@ button {
   display: block;
   position: relative;
   transition: padding-top 0.3s ease-in-out; /* Add transition for padding adjustment */
-  margin-top: auto; /* Push content down to ensure it scrolls underneath sticky elements */
+
 }
 
 /* Adjust the padding rule to create a smooth transition */

@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://localhost:5001'],
+  origin: ['http://localhost:3000', 'http://localhost:5001','https://santacruz.onrender.com'],
   credentials: true
 }));
 app.use(express.json());

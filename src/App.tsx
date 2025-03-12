@@ -77,39 +77,57 @@ function App() {
 
         setLoading(true);
         const apiUrl = process.env.REACT_APP_API_URL || "/api";
-        const response = await fetch(`${apiUrl}/photos?status=approved`);
+        console.log("Using API URL:", apiUrl); // Log the API URL being used
 
-        if (!response.ok) {
-          throw new Error("Failed to fetch approved photos");
-        }
+        try {
+          const response = await fetch(`${apiUrl}/photos?status=approved`, {
+            method: "GET",
+            headers: {
+              Accept: "application/json",
+              "Cache-Control": "no-cache",
+            },
+          });
 
-        const photos: Photo[] = await response.json();
-
-        // Group photos by floor
-        const updatedFloors = archiveFloors.map((floor) => {
-          const floorPhotos = photos
-            .filter((photo) => photo.floorId === floor.id)
-            .map((photo) => ({
-              ...photo,
-              // Use imageUrl directly from response
-              imageUrl: photo.imageUrl || "",
-            }));
-
-          // If we have server photos for this floor, use them, otherwise keep existing ones
-          if (floorPhotos.length > 0) {
-            return {
-              ...floor,
-              images: floorPhotos,
-            };
+          if (!response.ok) {
+            throw new Error(
+              `Failed to fetch approved photos: Status ${response.status}`
+            );
           }
 
-          return floor;
-        });
+          const photos: Photo[] = await response.json();
+          console.log(`Successfully fetched ${photos.length} photos`);
 
-        setArchiveFloors(updatedFloors);
-      } catch (err) {
-        console.error("Error fetching photos:", err);
-        setError("Failed to load photos from server");
+          // Group photos by floor
+          const updatedFloors = archiveFloors.map((floor) => {
+            const floorPhotos = photos
+              .filter((photo) => photo.floorId === floor.id)
+              .map((photo) => ({
+                ...photo,
+                // Use imageUrl directly from response
+                imageUrl: photo.imageUrl || "",
+              }));
+
+            // If we have server photos for this floor, use them, otherwise keep existing ones
+            if (floorPhotos.length > 0) {
+              return {
+                ...floor,
+                images: floorPhotos,
+              };
+            }
+
+            return floor;
+          });
+
+          setArchiveFloors(updatedFloors);
+        } catch (fetchError: any) {
+          console.error("Error fetching photos:", fetchError);
+          throw fetchError; // Re-throw to be caught by outer try/catch
+        }
+      } catch (err: any) {
+        console.error("Error in photo fetching process:", err);
+        setError(
+          `Failed to load photos from server: ${err.message || "Unknown error"}`
+        );
       } finally {
         setLoading(false);
       }

@@ -6,7 +6,7 @@ let isConnected = false;
 /**
  * Connect to MongoDB
  */
-export async function connectToDatabase() {
+async function connectToDatabase() {
   // If already connected, use existing connection
   if (isConnected) {
     return;
@@ -26,4 +26,8 @@ export async function connectToDatabase() {
     console.error('MongoDB connection error:', error);
     throw error;
   }
-} 
+}
+
+module.exports = {
+  connectToDatabase
+}; 

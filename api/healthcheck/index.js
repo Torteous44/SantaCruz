@@ -1,7 +1,7 @@
-import { connectToDatabase } from './utils/db';
-import mongoose from 'mongoose';
+const { connectToDatabase } = require('./utils/db');
+const mongoose = require('mongoose');
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   // Set CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');

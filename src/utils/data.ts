@@ -76,10 +76,7 @@ export const floors: Floor[] = [
 export const aboutContent: AboutContent = {
   title: 'About the Santa Cruz Photographic Archive',
   paragraphs: [
-    'The Convent of Santa Cruz la Real is a historic building with significant cultural value. This archive aims to document the building through photographs contributed by students, staff, alumni, and visitors.',
-    'While professional photographs of the exterior are readily available, this project focuses on creating a comprehensive record of the interior spaces, capturing the unique character and history of the building.',
-    'Users can tag their photos with the floor and room where the photograph was taken, and provide additional context about when it was captured.',
-    'All content uploaded remains the property of the creator. By uploading images, you allow us to use them to create this crowdsourced photographic archive of the Santa Cruz building.',
+    "This archive is dedicated to the Convent of Santa Cruz la Real in Segovia, Spain—a former Dominican monastery that now forms part of IE University’s campus. This project captures the evolving character of this historic site through community contributions, preserving its unique atmosphere for future generations.",
   ],
 };
 

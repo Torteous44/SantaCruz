@@ -76,7 +76,7 @@ export const floors: Floor[] = [
 export const aboutContent: AboutContent = {
   title: 'About the Santa Cruz Photographic Archive',
   paragraphs: [
-    "This archive is dedicated to the Convent of Santa Cruz la Real in Segovia, Spain—a former Dominican monastery that now forms part of IE University's campus. This project captures the evolving character of this historic site through community contributions, preserving its unique atmosphere for future generations.",
+    "This archive is dedicated to the Convent of Santa Cruz la Real in Segovia, Spain—a former Dominican monastery that now forms part of IE University's campus. This project captures the evolving character of this historic site through community contributions, preserving its unique atmosphere.",
   ],
 };
 

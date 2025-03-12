@@ -95,14 +95,14 @@
 .form-group {
   margin-bottom: 22px; /* Slightly reduced margin */
   position: relative;
-  transition: all 0.3s ease;
+  transition: background-color 0.3s ease;
 }
 
 .form-group label {
   display: block;
   margin-bottom: 6px; /* Reduced margin */
   font-weight: 400;
-  font-size: 0.8rem; /* Smaller font */
+  font-size: 0.70rem; /* Smaller font */
   letter-spacing: 1px;
   text-transform: uppercase;
   color: var(--text-color);
@@ -229,24 +229,4 @@
 
 .image-preview img:hover {
   opacity: 1;
-}
-
-/* Animation for form elements - use opacity instead of both opacity and transform */
-.contribute-section.open .form-group {
-  animation: fadeIn 0.5s ease forwards;
-  opacity: 0;
-}
-
-.contribute-section.open .form-group:nth-child(1) { animation-delay: 0.15s; }
-.contribute-section.open .form-group:nth-child(2) { animation-delay: 0.2s; }
-.contribute-section.open .form-group:nth-child(3) { animation-delay: 0.25s; }
-.contribute-section.open .form-group:nth-child(4) { animation-delay: 0.3s; }
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
 } 

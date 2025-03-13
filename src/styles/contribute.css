@@ -180,7 +180,7 @@
   font-size: 0.75rem; /* Smaller font */
   letter-spacing: 1.5px;
   text-transform: uppercase;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
   cursor: pointer;
 }
 

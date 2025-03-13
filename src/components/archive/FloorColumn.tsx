@@ -1,13 +1,24 @@
 import React from "react";
-import { FloorColumnProps } from "../../types";
+import { FloorColumnProps } from "../../types/index";
 import PhotoCard from "./PhotoCard";
 
 /**
  * Component for displaying a column of photos for a specific floor
  */
-const FloorColumn: React.FC<FloorColumnProps> = ({ floor }) => {
+const FloorColumn: React.FC<FloorColumnProps> = ({
+  floor,
+  expandedImageId = null,
+  onImageExpand,
+}) => {
   // Add a className based on whether there are images
   const hasImages = floor.images.length > 0;
+
+  // Handle image click
+  const handleImageClick = (photoId: string) => {
+    if (onImageExpand) {
+      onImageExpand(photoId, floor.id);
+    }
+  };
 
   return (
     <div
@@ -16,7 +27,14 @@ const FloorColumn: React.FC<FloorColumnProps> = ({ floor }) => {
       }`}
     >
       {hasImages ? (
-        floor.images.map((photo) => <PhotoCard key={photo.id} photo={photo} />)
+        floor.images.map((photo) => (
+          <PhotoCard
+            key={photo.id}
+            photo={photo}
+            isExpanded={photo.id === expandedImageId}
+            onExpand={() => handleImageClick(photo.id)}
+          />
+        ))
       ) : (
         <div className="no-photos">
           <p>!</p>

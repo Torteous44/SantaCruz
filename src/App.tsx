@@ -18,7 +18,7 @@ import AdminPanel from "./components/admin/AdminPanel";
 import MobileView from "./components/mobile/MobileView";
 
 // Import types and data
-import { Photo, Floor } from "./types";
+import { Photo, Floor } from "./types/index";
 import { floors as initialFloors, aboutContent } from "./utils/data";
 
 function App() {
@@ -28,6 +28,8 @@ function App() {
   const [isAdminPanelOpen, setIsAdminPanelOpen] = useState(false);
   // Add state to track which floor is expanded
   const [expandedFloor, setExpandedFloor] = useState<string | null>(null);
+  // Add state to track which image is expanded
+  const [expandedImageId, setExpandedImageId] = useState<string | null>(null);
 
   // Toggle functions with exclusive behavior - no nested conditionals
   const toggleAbout = () => {
@@ -162,6 +164,23 @@ function App() {
     fetchApprovedPhotos();
   }, []);
 
+  // Check for :has selector support and add a class to the body if not supported
+  useEffect(() => {
+    try {
+      // Simple feature detection for :has selector
+      const hasSupport = CSS.supports("selector(:has(*))");
+
+      if (!hasSupport) {
+        document.body.classList.add("no-has-support");
+        console.log("Browser does not support :has selector, using fallback.");
+      }
+    } catch (error) {
+      // If CSS.supports is not available, assume no support
+      document.body.classList.add("no-has-support");
+      console.log("CSS.supports not available, using fallback.");
+    }
+  }, []);
+
   // Listen for hash changes in URL to toggle Contribute form
   useEffect(() => {
     const handleHashChange = () => {
@@ -221,6 +240,44 @@ function App() {
     }
   };
 
+  // Add handler for image expansion
+  const handleImageExpand = (photoId: string, floorId: string) => {
+    // If the same image is clicked again, collapse it
+    if (expandedImageId === photoId) {
+      setExpandedImageId(null);
+
+      // Remove sibling classes for browsers without :has support
+      document
+        .querySelectorAll(".floor-plan-container")
+        .forEach((container) => {
+          container.classList.remove("has-expanded-image-sibling");
+        });
+    } else {
+      // Otherwise expand this image and collapse any others
+      setExpandedImageId(photoId);
+
+      // Add sibling classes for browsers without :has support
+      document
+        .querySelectorAll(".floor-plan-container")
+        .forEach((container) => {
+          if (!container.classList.contains("has-expanded-image")) {
+            container.classList.add("has-expanded-image-sibling");
+          } else {
+            container.classList.remove("has-expanded-image-sibling");
+          }
+        });
+
+      // If the expanded image is in a different floor, collapse current floor details
+      if (expandedFloor && expandedFloor !== floorId) {
+        setExpandedFloor(null);
+      }
+
+      // Close any open panels
+      if (isAboutOpen) setIsAboutOpen(false);
+      if (isContributeOpen) setIsContributeOpen(false);
+    }
+  };
+
   return (
     <div className="app">
       {/* NavBar component with updated handlers */}
@@ -261,7 +318,14 @@ function App() {
           {/* Desktop view - floor columns side by side */}
           <div className="floor-columns">
             {archiveFloors.map((floor) => (
-              <div key={floor.id} className="floor-plan-container">
+              <div
+                key={floor.id}
+                className={`floor-plan-container ${
+                  floor.images.some((img) => img.id === expandedImageId)
+                    ? "has-expanded-image"
+                    : ""
+                }`}
+              >
                 {/* Floor title that can be clicked to expand */}
                 <div
                   className={`floor-plan-item ${
@@ -293,7 +357,12 @@ function App() {
                 </div>
 
                 {/* Floor column with photos */}
-                <FloorColumn key={`col-${floor.id}`} floor={floor} />
+                <FloorColumn
+                  key={`col-${floor.id}`}
+                  floor={floor}
+                  expandedImageId={expandedImageId}
+                  onImageExpand={handleImageExpand}
+                />
               </div>
             ))}
           </div>

@@ -10,6 +10,8 @@
   --transition-speed: 0.3s;
   --heading-font: 'Cormorant Garamond', serif;
   --body-font: 'Libre Franklin', sans-serif;
+  --floor-transition-speed: 0.3s; /* Added for consistency */
+  --image-transition-speed: 0.5s; /* Slightly longer for smoother image transitions */
 }
 
 * {
@@ -314,6 +316,37 @@ button {
   box-sizing: border-box !important;
   padding: 0 !important;
   margin: 0 !important;
+  transition: flex var(--floor-transition-speed) ease, 
+              width var(--floor-transition-speed) ease, 
+              max-width var(--floor-transition-speed) ease, 
+              min-width var(--floor-transition-speed) ease;
+  will-change: flex, width, max-width, min-width; /* Optimize for animation */
+}
+
+/* Container with expanded image - increase width by 40% */
+.floor-plan-container.has-expanded-image {
+  flex: 1.4;
+  width: 28%; /* 40% increase from 20% */
+  max-width: 28%;
+  min-width: 28%;
+}
+
+/* Reduce other containers when one has expanded image */
+.floor-columns:has(.has-expanded-image) .floor-plan-container:not(.has-expanded-image) {
+  flex: 0.9;
+  width: 18%; /* Slightly reduced from 20% */
+  max-width: 18%;
+  min-width: 18%;
+}
+
+/* For browsers that don't support :has */
+@supports not (selector(:has(*))) {
+  .has-expanded-image-sibling {
+    flex: 0.9;
+    width: 18%;
+    max-width: 18%;
+    min-width: 18%;
+  }
 }
 
 /* Ensure any direct children of floor-plan-container take full width */
@@ -480,11 +513,25 @@ button {
   font-size: 0.8rem;
 }
 
-/* Photo Card */
+/* Photo Card with Expansion */
 .photo-card {
   margin-bottom: 20px;
-  width: 100% !important; /* Force full width */
-  box-sizing: border-box; /* Include padding in width calculation */
+  width: 100% !important;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: transform var(--image-transition-speed) ease,
+              box-shadow var(--image-transition-speed) ease;
+  will-change: transform, box-shadow;
+}
+
+
+.photo-card.expanded {
+  z-index: 5;
+}
+
+.photo-image {
+  overflow: hidden;
+  transition: max-height var(--image-transition-speed) ease;
 }
 
 .photo-image img {
@@ -494,7 +541,9 @@ button {
   max-width: 100%;
   object-fit: contain;
   box-sizing: border-box;
+  transition: transform var(--image-transition-speed) ease;
 }
+
 
 .photo-info {
   display: flex;
@@ -502,6 +551,12 @@ button {
   padding: 5px 0;
   font-size: 0.65rem;
   color: #888;
+  transition: padding var(--image-transition-speed) ease,
+              font-size var(--image-transition-speed) ease;
+}
+
+.photo-card.expanded .photo-info {
+  font-size: 0.7rem;
 }
 
 /* Loading indicator */

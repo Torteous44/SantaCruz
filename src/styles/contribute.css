@@ -42,8 +42,8 @@
 .contribute-section h2 {
   margin-bottom: 25px; /* Reduced margin */
   text-align: left;
-  font-size: 0.95rem; /* Smaller font size */
-  letter-spacing: 5px;
+  font-size: 0.9rem; /* Smaller font size */
+  letter-spacing: 4px;
   text-transform: uppercase;
   font-weight: 400;
 }
@@ -173,7 +173,8 @@
 }
 
 .form-submit button {
-  padding: 8px 236px; /* Reduced padding */
+  width: 100%;
+  padding: 10px 0;
   background-color: transparent;
   color: var(--text-color);
   border: 1px solid var(--border-color);
@@ -187,7 +188,7 @@
 .form-submit button:hover {
   background-color: var(--secondary-bg);
   color: var(--text-color);
-  font-weight: 700;
+  font-weight: 500; 
 }
 
 .form-submit button:disabled {

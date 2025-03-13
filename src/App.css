@@ -96,7 +96,6 @@
 /* Placeholder for photo cards */
 .photo-card {
   margin-bottom: 20px;
-  border: 1px solid #cfcfcf;
   border-radius: 2px;
   overflow: hidden;
 }

@@ -1,0 +1,251 @@
+/* Mobile-specific styles - Only applied at smaller screen sizes */
+
+/* Hidden on desktop, only visible on mobile */
+.mobile-view {
+  display: none;
+}
+
+/* Mobile view with hidden content when dialogs are open */
+.mobile-view.content-hidden .mobile-content {
+  display: none;
+}
+
+/* Mobile styles - only applied below 600px */
+@media (max-width: 600px) {
+  /* Show mobile view, hide desktop columns */
+  .mobile-view {
+    display: flex;
+    width: 100%;
+    height: calc(100vh - var(--header-height));
+    overflow: hidden;
+  }
+  
+  /* Override main content to fill remaining height */
+  .main-content {
+    height: calc(100vh - var(--header-height)) !important;
+    overflow: hidden !important;
+  }
+  
+  /* Hide the desktop floor columns */
+  .floor-columns {
+    display: none !important; /* Hide desktop columns */
+  }
+  
+  /* Override any existing floor-plan-container styles for mobile */
+  .floor-plan-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 100% !important;
+    height: auto !important;
+    border-right: none !important;
+    border-bottom: 1px solid var(--border-color) !important;
+    overflow-y: visible !important;
+  }
+  
+  /* Mobile navbar styles */
+  .mobile-navbar {
+    width: 120px;
+    min-width: 120px;
+    height: 100%;
+    background-color: var(--primary-bg);
+    border-right: 1px solid var(--border-color);
+    overflow-y: auto;
+    z-index: 100;
+  }
+  
+  .mobile-nav-item {
+    display: flex;
+    align-items: center;
+    padding: 20px 15px;
+    border-bottom: 1px solid var(--border-color);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  mobile-nav-link
+  .mobile-nav-item:hover {
+    background-color: var(--secondary-bg);
+  }
+  
+  .mobile-nav-item.active {
+    background-color: var(--secondary-bg);
+    font-weight: 500;
+  }
+  
+  .mobile-nav-item .floor-name {
+    font-size: 1rem;
+    pointer-events: none;
+    text-transform: uppercase;
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 350;
+  }
+  
+  /* Mobile content area */
+  .mobile-content {
+    flex: 1;
+    height: 100%;
+    overflow-y: auto;
+    background-color: var(--primary-bg);
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  }
+  
+  .mobile-floor-content {
+    padding: 15px;
+  }
+  
+  .mobile-floor-title {
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color);
+    text-transform: uppercase;
+    font-family: 'Roboto Mono', monospace;
+  }
+  
+  .mobile-floor-rooms {
+    background-color: var(--secondary-bg);
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+  }
+  
+  .mobile-floor-rooms h3 {
+    font-family: var(--body-font) !important;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    font-weight: 450;
+    letter-spacing: 1px;
+    color: #333;
+    padding-bottom: 5px;
+    border-bottom: 1px solid var(--border-color);
+  }
+  
+  .mobile-select-prompt {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    color: #888;
+    font-size: 0.9rem;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  /* Override existing floor-photos for mobile */
+  .mobile-floor-content .floor-photos {
+    padding: 0;
+    margin-top: 15px;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  
+  /* Make navbar single row on mobile */
+  .navbar {
+    height: auto;
+    padding: 10px 15px;
+  }
+  
+  .navbar-title h1 {
+    font-size: 1.4rem;
+  }
+  
+  /* Ensure consistent styling for photo cards */
+  .mobile-floor-content .photo-card {
+    margin-bottom: 20px;
+    width: 100% !important;
+  }
+  
+  .mobile-floor-content .photo-image img {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  
+  /* Style links in the mobile navbar */
+  .mobile-navbar a {
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  /* Contribute form mobile styles */
+  .contribute-section.open {
+    padding: 15px 10px;
+    margin-bottom: 50px; /* Add space at bottom for better scrolling */
+  }
+  
+  .contribute-container {
+    max-width: 100%;
+  }
+  
+  .form-submit button {
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 0.7rem;
+  }
+  
+  .form-group input, 
+  .form-group select,
+  .form-group textarea {
+    font-size: 0.85rem;
+  }
+  
+  /* About section mobile styles */
+  .about-section.open {
+    padding: 20px 10px;
+    margin-bottom: 50px; /* Add space at bottom for better scrolling */
+  }
+  
+  .about-content {
+    width: 100%;
+    padding: 0 15px;
+    gap: 20px;
+  }
+  
+  /* Fix for when About or Contribute are open */
+  .about-section.open,
+  .contribute-section.open {
+    z-index: 200; /* Ensure they appear above other content */
+    position: relative;
+    background-color: var(--primary-bg);
+  }
+  
+  /* Better room item styling for mobile */
+  .mobile-floor-rooms .room-item {
+    padding: 10px 5px;
+    font-size: 0.7rem;
+  }
+}
+
+/* Extra small devices - optimize for very small screens */
+@media (max-width: 400px) {
+  .mobile-navbar {
+    width: 140px;
+    min-width: 140px;
+  }
+  
+  .mobile-nav-item {
+    padding: 15px 10px;
+  }
+  
+  .mobile-nav-item .floor-name {
+    font-size: 0.9rem;
+  }
+  
+  .navbar-title h1 {
+    font-size: 1.2rem;
+  }
+  
+  /* Smaller padding for very small screens */
+  .mobile-floor-content {
+    padding: 10px;
+  }
+  
+  .form-group label {
+    font-size: 0.7rem;
+  }
+  
+  .form-group .helper-text {
+    font-size: 0.7rem;
+  }
+} 

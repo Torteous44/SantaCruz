@@ -6,6 +6,8 @@ import "./styles/global.css";
 import "./styles/contribute.css";
 // Import admin styles
 import "./styles/admin.css";
+// Import mobile styles
+import "./styles/mobile.css";
 
 // Import components
 import NavBar from "./components/layout/NavBar";
@@ -13,6 +15,7 @@ import AboutSection from "./components/layout/AboutSection";
 import FloorColumn from "./components/archive/FloorColumn";
 import ContributeForm from "./components/archive/ContributeForm";
 import AdminPanel from "./components/admin/AdminPanel";
+import MobileView from "./components/mobile/MobileView";
 
 // Import types and data
 import { Photo, Floor } from "./types";
@@ -202,6 +205,11 @@ function App() {
 
   // Function to toggle a floor's expanded state
   const toggleFloorExpansion = (floorId: string) => {
+    // Always close About and Contribute sections when selecting a floor
+    if (isAboutOpen) setIsAboutOpen(false);
+    if (isContributeOpen) setIsContributeOpen(false);
+
+    // Toggle the floor expansion
     setExpandedFloor(expandedFloor === floorId ? null : floorId);
   };
 
@@ -239,7 +247,18 @@ function App() {
 
       {!isAdminPanelOpen && (
         <div className="main-content">
-          {/* Main content area with columns */}
+          {/* Mobile view - only shows on small screens */}
+          <MobileView
+            floors={archiveFloors}
+            expandedFloor={expandedFloor}
+            toggleFloorExpansion={toggleFloorExpansion}
+            isAboutOpen={isAboutOpen}
+            toggleAbout={toggleAbout}
+            isContributeOpen={isContributeOpen}
+            toggleContribute={toggleContribute}
+          />
+
+          {/* Desktop view - floor columns side by side */}
           <div className="floor-columns">
             {archiveFloors.map((floor) => (
               <div key={floor.id} className="floor-plan-container">

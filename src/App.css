@@ -116,20 +116,3 @@
   margin: 0;
   font-size: 0.6rem;
 }
-
-/* Make the layout responsive */
-@media (max-width: 768px) {
-  .header {
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  .column {
-    min-width: 100%;
-  }
-  
-  .floor-columns {
-    flex-direction: column;
-    overflow-x: hidden;
-  }
-}

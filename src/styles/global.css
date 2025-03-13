@@ -504,105 +504,6 @@ button {
   color: #888;
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .navbar {
-    flex-direction: column;
-    height: auto;
-    padding: 10px;
-    gap: 10px;
-  }
-  
-  .navbar-left, .navbar-right {
-    width: 100%;
-    justify-content: center;
-  }
-  
-  .navbar-title {
-    position: relative;
-    width: 100%;
-    margin: 15px 0;
-  }
-  
-  .about-content {
-    flex-direction: column;
-    width: 85%;
-  }
-  
-  .about-rules li {
-    padding-left: 18px;
-    margin-bottom: 10px;
-  }
-}
-
-/* Mobile view adjustments - stack vertically below 600px */
-@media (max-width: 600px) {
-  .floor-plans-nav {
-    flex-direction: column;
-    border-bottom: none;
-  }
-  
-  .floor-plan-container {
-    width: 100%;
-    flex: none;
-    border-right: none;
-    border-bottom: 1px solid var(--border-color);
-  }
-  
-  .floor-plan-item {
-    width: 100%;
-    padding: 12px;
-  }
-  
-  .floor-rooms {
-    padding: 10px 15px;
-    border-bottom: none;
-  }
-  
-  .floor-plans-nav .floor-name {
-    font-size: 1rem;
-  }
-  
-  .floor-columns {
-    flex-direction: column;
-    overflow: visible; /* Allow scrolling of the entire page */
-  }
-  
-  .floor-column {
-    flex: 0 0 auto;
-    width: 100%;
-    max-width: 100%;
-    min-width: 100%;
-    height: auto; /* Allow content to determine height */
-    max-height: 500px; /* Set a maximum height for scrolling */
-    overflow-y: auto; /* Keep the vertical scrolling */
-    border-right: none;
-    border-bottom: 1px solid var(--border-color);
-  }
-  
-  .floor-photos {
-    padding: 10px;
-  }
-  
-  .photo-card {
-    margin-bottom: 15px;
-  }
-  
-  .about-content {
-    width: 95%;
-  }
-  
-  .about-rules h3 {
-    font-size: 0.9rem;
-  }
-  
-  .about-rules li {
-    font-size: 0.9rem;
-    padding-left: 15px;
-    margin-bottom: 8px;
-  }
-}
-
 /* Loading indicator */
 .loading-indicator {
   text-align: center;
@@ -636,3 +537,28 @@ button {
   right: 0 !important;
   box-sizing: border-box !important;
 }
+
+@media (max-width: 600px) {
+.navbar-left{
+  display: none;
+  }
+
+.navbar{
+  min-height: 50px;
+}
+}
+@media (max-width: 900px) {
+  .nav-link{
+    font-size: 0.6rem;
+    }
+    .navbar-left{
+      gap: 10px;
+    }
+    .navbar {
+      padding: 0 25px;
+
+    }
+  .navbar-title h1{
+    font-size: 1.25rem;
+  }
+  }

@@ -3,6 +3,14 @@ import ReactDOM from "react-dom/client";
 import "./styles/global.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import { preloadPhotos } from "./utils/preloader";
+
+// Start preloading photos immediately (don't await)
+// This will run in the background while the app initializes
+preloadPhotos().catch((err) => {
+  // Log any errors but don't block rendering
+  console.error("Failed to preload photos:", err);
+});
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

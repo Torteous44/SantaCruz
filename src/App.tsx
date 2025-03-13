@@ -20,6 +20,10 @@ import MobileView from "./components/mobile/MobileView";
 // Import types and data
 import { Photo, Floor } from "./types/index";
 import { floors as initialFloors, aboutContent } from "./utils/data";
+import {
+  getPreloadedPhotos,
+  getUpdatedFloorsWithPhotos,
+} from "./utils/preloader";
 
 function App() {
   // State for toggling the About and Contribute sections
@@ -30,6 +34,19 @@ function App() {
   const [expandedFloor, setExpandedFloor] = useState<string | null>(null);
   // Add state to track which image is expanded
   const [expandedImageId, setExpandedImageId] = useState<string | null>(null);
+
+  // State for managing floors and photos
+  const [archiveFloors, setArchiveFloors] = useState<Floor[]>(() => {
+    // Check if we have preloaded photos already
+    const preloadedFloors = getUpdatedFloorsWithPhotos();
+    if (preloadedFloors !== initialFloors) {
+      console.log("Using preloaded photos on initial render");
+      return preloadedFloors;
+    }
+    return initialFloors;
+  });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   // Toggle functions with exclusive behavior - no nested conditionals
   const toggleAbout = () => {
@@ -65,14 +82,18 @@ function App() {
     }
   };
 
-  // State for managing floors and photos
-  const [archiveFloors, setArchiveFloors] = useState<Floor[]>(initialFloors);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  // Fetch approved photos from server
+  // Fetch approved photos from server, but only if not already preloaded
   useEffect(() => {
     const fetchApprovedPhotos = async () => {
+      // If we already have photos from preloading, skip fetching
+      const preloadedPhotos = getPreloadedPhotos();
+      if (preloadedPhotos) {
+        console.log("Using photos from preloader, skipping fetch");
+        // Update floors with preloaded photos
+        setArchiveFloors(getUpdatedFloorsWithPhotos());
+        return;
+      }
+
       try {
         // Check if we're in development mode with no server
         if (process.env.REACT_APP_USE_MOCK_DATA === "true") {

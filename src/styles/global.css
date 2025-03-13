@@ -335,7 +335,7 @@ button {
   cursor: pointer;
   padding: 15px 5px;
   background-color: var(--primary-bg);
-  transition: background-color 0.2s ease;
+  transition: background-color 0.1s ease;
   border-bottom: 1px solid var(--border-color);
   width: 100% !important;
   box-sizing: border-box;

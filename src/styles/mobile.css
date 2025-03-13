@@ -171,7 +171,6 @@
   /* Contribute form mobile styles */
   .contribute-section.open {
     padding: 15px 10px;
-    margin-bottom: 50px; /* Add space at bottom for better scrolling */
   }
   
   .contribute-container {
@@ -193,7 +192,6 @@
   /* About section mobile styles */
   .about-section.open {
     padding: 20px 10px;
-    margin-bottom: 50px; /* Add space at bottom for better scrolling */
   }
   
   .about-content {

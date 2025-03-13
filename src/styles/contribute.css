@@ -173,11 +173,11 @@
 }
 
 .form-submit button {
-  padding: 8px 232.5px; /* Reduced padding */
+  padding: 8px 236px; /* Reduced padding */
   background-color: transparent;
   color: var(--text-color);
-  border: 1px solid var(--text-color);
-  font-size: 0.75rem; /* Smaller font */
+  border: 1px solid var(--border-color);
+  font-size: 0.7rem; /* Smaller font */
   letter-spacing: 1.5px;
   text-transform: uppercase;
   transition: all 0.2s ease;
@@ -185,8 +185,9 @@
 }
 
 .form-submit button:hover {
-  background-color: var(--text-color);
-  color: var(--primary-bg);
+  background-color: var(--secondary-bg);
+  color: var(--text-color);
+  font-weight: 700;
 }
 
 .form-submit button:disabled {

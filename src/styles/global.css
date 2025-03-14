@@ -154,7 +154,6 @@ button {
 }
 
 .nav-link:hover {
-  transform: translateY(-0.3px);
   color: rgba(0, 0, 0, 0.8);
   transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1), color 0.3s ease;
 }
@@ -165,7 +164,6 @@ button {
 }
 
 .nav-link:active {
-  transform: translateY(0.1px);
   transition: transform 0.08s ease;
   color: rgba(0, 0, 0, 1);
 }

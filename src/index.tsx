@@ -5,10 +5,8 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { preloadPhotos } from "./utils/preloader";
 
-// Start preloading photos immediately (don't await)
-// This will run in the background while the app initializes
+// Start preloading photos immediately
 preloadPhotos().catch((err) => {
-  // Log any errors but don't block rendering
   console.error("Failed to preload photos:", err);
 });
 

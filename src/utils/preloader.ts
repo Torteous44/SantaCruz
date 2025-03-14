@@ -41,7 +41,7 @@ export const preloadPhotos = async (): Promise<Photo[]> => {
     // Use environment variable for API URL with fallback
     const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:5001/api";
 
-    const response = await fetch(`${apiUrl}/photos?status=approved`, {
+    const response = await fetch(`${apiUrl}/photos/approved`, {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -56,7 +56,6 @@ export const preloadPhotos = async (): Promise<Photo[]> => {
     const photos: Photo[] = await response.json();
     preloadedPhotos = photos;
     
-    console.log(`Preloaded ${photos.length} photos before app render`);
     
     return photos;
   } catch (err: any) {

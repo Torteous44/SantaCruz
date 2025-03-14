@@ -40,12 +40,13 @@ function App() {
     // Check if we have preloaded photos already
     const preloadedFloors = getUpdatedFloorsWithPhotos();
     if (preloadedFloors !== initialFloors) {
-      console.log("Using preloaded photos on initial render");
       return preloadedFloors;
     }
     return initialFloors;
   });
+  // loading is used to show loading state during API calls
   const [loading, setLoading] = useState(false);
+  // error is used to display API errors to users when they occur
   const [error, setError] = useState<string | null>(null);
 
   // Toggle functions with exclusive behavior - no nested conditionals
@@ -83,12 +84,12 @@ function App() {
   };
 
   // Fetch approved photos from server, but only if not already preloaded
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     const fetchApprovedPhotos = async () => {
       // If we already have photos from preloading, skip fetching
       const preloadedPhotos = getPreloadedPhotos();
       if (preloadedPhotos) {
-        console.log("Using photos from preloader, skipping fetch");
         // Update floors with preloaded photos
         setArchiveFloors(getUpdatedFloorsWithPhotos());
         return;
@@ -97,7 +98,6 @@ function App() {
       try {
         // Check if we're in development mode with no server
         if (process.env.REACT_APP_USE_MOCK_DATA === "true") {
-          console.log("Using mock data instead of server");
           return;
         }
 
@@ -108,7 +108,7 @@ function App() {
           process.env.REACT_APP_API_URL || "http://localhost:5001/api";
 
         try {
-          const response = await fetch(`${apiUrl}/photos?status=approved`, {
+          const response = await fetch(`${apiUrl}/photos/approved`, {
             method: "GET",
             headers: {
               Accept: "application/json",
@@ -136,11 +136,19 @@ function App() {
           const updatedFloors = archiveFloors.map((floor) => {
             const floorPhotos = photos
               .filter((photo: Photo) => photo.floorId === floor.id)
-              .map((photo: Photo) => ({
-                ...photo,
-                // Use imageUrl directly from response
-                imageUrl: photo.imageUrl || "",
-              }));
+              .map((photo: Photo) => {
+                // Debug logging
+                // Create a correctly formatted photo object with proper ID formats
+                return {
+                  ...photo,
+                  // Use id from _id if available, or keep existing
+                  id: photo._id || photo.id || `photo-${Date.now()}`,
+                  // Use imageUrl directly from response
+                  imageUrl: photo.imageUrl || "",
+                  // Keep the roomId as is, verify it matches a room in the floor
+                  roomId: photo.roomId || undefined,
+                };
+              });
 
             // If we have server photos for this floor, use them, otherwise keep existing ones
             if (floorPhotos.length > 0) {
@@ -183,7 +191,7 @@ function App() {
     };
 
     fetchApprovedPhotos();
-  }, []);
+  }, []); // We use an empty dependency array to run this only once on mount
 
   // Check for :has selector support and add a class to the body if not supported
   useEffect(() => {

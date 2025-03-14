@@ -463,6 +463,10 @@ button {
   z-index: 5;
 }
 
+.floor-rooms.expanded h3 {
+  user-select: none;
+  
+}
 /* Remove the fixed padding-top that was causing overlap */
 .floor-photos {
   padding: 10px;
@@ -615,9 +619,7 @@ button {
 
 /* Add highlighting to the expanded image - more subtle */
 .floor-plan-container.has-expanded-image .photo-card.expanded {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  background-color: #fff;
-  padding: 4px;
+
   border-radius: 2px;
 }
 
@@ -632,6 +634,31 @@ button {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+/* Style for the dot separator and room name */
+.dot-separator {
+  color: #999;
+  display: inline-block;
+  margin: 0 2px;
+}
+
+.photo-room {
+  font-style: italic;
+  display: inline-block; /* Ensure it displays properly */
+  color: #888;
+}
+
+.photo-date {
+  max-width: 70%; /* Ensure room fits */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Better text handling in expanded state */
+.photo-card.expanded .photo-date {
+  white-space: normal; /* Allow wrapping in expanded view */
 }
 
 /* Better text handling in non-expanded columns */

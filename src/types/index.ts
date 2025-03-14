@@ -1,6 +1,7 @@
 // Define the structure of a photo in our archive
 export interface Photo {
   id: string;
+  _id?: string; // MongoDB ID from the server
   imageUrl: string;
   contributor?: string;
   date?: string;
@@ -9,6 +10,10 @@ export interface Photo {
   description?: string; // Optional description of the photo
   caption?: string; // Alternative to description for display purposes
   status?: 'pending' | 'approved' | 'rejected'; // For admin functionality
+  approvedAt?: string; // Timestamp when photo was approved
+  submittedAt?: string; // Timestamp when photo was submitted
+  cloudflareId?: string; // Cloudflare image ID
+  originalFileName?: string; // Original uploaded filename
 }
 
 // Define a room in a floor
@@ -57,6 +62,7 @@ export interface PhotoCardProps {
   photo: Photo;
   isExpanded?: boolean;
   onExpand?: () => void;
+  floor?: Floor;
 }
 
 export interface ContributeFormProps {

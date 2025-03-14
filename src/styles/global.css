@@ -116,12 +116,12 @@ button {
   background: none;
   border: none;
   color: var(--link-color);
-  font-size: 0.8rem;
-  font-weight: 350;
+  font-size: 0.825rem;
+  font-weight: 375;
   text-transform: uppercase;
-  font-family: var(--body-font);
+  font-family: 'DM Sans', sans-serif;
   position: relative;
-  padding-bottom: 2px;
+  padding-bottom: 0px;
   transition: all var(--transition-speed) ease, color 0.2s ease;
   cursor: pointer;
 }
@@ -205,20 +205,13 @@ button {
   padding: 0 20px;
 }
 
-.about-left {
-  flex: 2;
-}
-
-.about-right {
-  flex: 1;
-}
 
 .about-content h2 {
   text-transform: uppercase;
   font-size: 0.8rem;
   margin: 0px 0 10px;
   font-weight: 500;
-  font-family: 'Libre Franklin', sans-serif;
+  font-family: 'DM Sans', sans-serif;
 }
 
 .about-content h3 {
@@ -226,7 +219,7 @@ button {
   font-size: 0.8rem;
   margin: 20px 0 10px;
   font-weight: 500;
-  font-family: 'Libre Franklin', sans-serif;
+  font-family: 'DM Sans', sans-serif;
   user-select: none;
   -webkit-user-select: none;
   -moz-user-select: none;

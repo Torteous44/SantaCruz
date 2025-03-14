@@ -43,9 +43,10 @@
   margin-bottom: 25px; /* Reduced margin */
   text-align: left;
   font-size: 0.9rem; /* Smaller font size */
-  letter-spacing: 4px;
+  letter-spacing: 2.5px;
   text-transform: uppercase;
   font-weight: 400;
+  font-family: 'DM Sans', sans-serif;
 }
 
 /* Removed redundant about-rules styling as it's now in global.css */
@@ -107,6 +108,7 @@
   text-transform: uppercase;
   color: var(--text-color);
   opacity: 0.8;
+  font-family: 'DM Sans', sans-serif;
 }
 
 .form-group input,

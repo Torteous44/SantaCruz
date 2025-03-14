@@ -55,11 +55,14 @@
   
   .mobile-nav-item {
     display: flex;
-    align-items: center;
-    padding: 20px 15px;
+    align-items: left;
+    justify-content: left;
+    text-align: left;
+    padding: 20px 2px;
     border-bottom: 1px solid var(--border-color);
     cursor: pointer;
     transition: background-color 0.2s ease;
+    font-size: 0.5rem;
   }
   
   mobile-nav-link
@@ -73,11 +76,14 @@
   }
   
   .mobile-nav-item .floor-name {
-    font-size: 1rem;
+    font-size: 0.9rem;
     pointer-events: none;
     text-transform: uppercase;
     font-family: 'Roboto Mono', monospace;
     font-weight: 350;
+    align-items: left;
+    justify-content: left;
+    text-align: left;
   }
   
   /* Mobile content area */
@@ -224,10 +230,16 @@
   
   .mobile-nav-item {
     padding: 15px 10px;
+    align-items: left;
+    justify-content: left;
+    text-align: left;
   }
   
   .mobile-nav-item .floor-name {
     font-size: 0.9rem;
+    text-align: left;
+    align-items: left;
+    justify-content: left;
   }
   
   .navbar-title h1 {

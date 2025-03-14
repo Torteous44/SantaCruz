@@ -227,6 +227,10 @@ button {
   margin: 20px 0 10px;
   font-weight: 500;
   font-family: 'Libre Franklin', sans-serif;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
 
 .about-content h4 {
@@ -492,7 +496,9 @@ button {
 
 .floor-rooms.expanded h3 {
   user-select: none;
-  
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;  
 }
 /* Remove the fixed padding-top that was causing overlap */
 .floor-photos {
@@ -524,6 +530,10 @@ button {
   color: #333;
   padding-bottom: 5px;
   border-bottom: 1px solid var(--border-color);
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
 
 .room-list {
@@ -548,6 +558,10 @@ button {
   text-overflow: ellipsis;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   transition: background-color 0.2s ease;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
 
 /* Adjust room item text in non-expanded columns */
@@ -615,6 +629,10 @@ button {
   object-fit: contain;
   box-sizing: border-box;
   transition: all var(--image-transition-speed) ease;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
 
 /* Apply optimal sizing for images in expanded column */
@@ -623,6 +641,10 @@ button {
   object-fit: contain;
   width: 100%;
   transition: all var(--image-transition-speed) ease;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
 
 /* Optimize expanded image display */

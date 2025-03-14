@@ -267,26 +267,39 @@ function App() {
     if (expandedImageId === photoId) {
       setExpandedImageId(null);
 
-      // Remove sibling classes for browsers without :has support
+      // Remove classes for browsers without :has support
       document
         .querySelectorAll(".floor-plan-container")
         .forEach((container) => {
+          container.classList.remove("has-expanded-image");
           container.classList.remove("has-expanded-image-sibling");
         });
     } else {
       // Otherwise expand this image and collapse any others
       setExpandedImageId(photoId);
 
-      // Add sibling classes for browsers without :has support
+      // Clear any existing expansion classes
       document
         .querySelectorAll(".floor-plan-container")
         .forEach((container) => {
-          if (!container.classList.contains("has-expanded-image")) {
-            container.classList.add("has-expanded-image-sibling");
-          } else {
-            container.classList.remove("has-expanded-image-sibling");
-          }
+          container.classList.remove("has-expanded-image");
+          container.classList.remove("has-expanded-image-sibling");
         });
+
+      // Find the specific column containing this image and expand only that one
+      const floorContainer = document.getElementById(`floor-${floorId}`);
+      if (floorContainer) {
+        floorContainer.classList.add("has-expanded-image");
+
+        // Add sibling class to all other floor containers
+        document
+          .querySelectorAll(".floor-plan-container")
+          .forEach((container) => {
+            if (container !== floorContainer) {
+              container.classList.add("has-expanded-image-sibling");
+            }
+          });
+      }
 
       // If the expanded image is in a different floor, collapse current floor details
       if (expandedFloor && expandedFloor !== floorId) {
@@ -341,11 +354,8 @@ function App() {
             {archiveFloors.map((floor) => (
               <div
                 key={floor.id}
-                className={`floor-plan-container ${
-                  floor.images.some((img) => img.id === expandedImageId)
-                    ? "has-expanded-image"
-                    : ""
-                }`}
+                id={`floor-${floor.id}`}
+                className="floor-plan-container"
               >
                 {/* Floor title that can be clicked to expand */}
                 <div

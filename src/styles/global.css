@@ -117,7 +117,7 @@ button {
   border: none;
   color: var(--link-color);
   font-size: 0.8rem;
-  font-weight: 400;
+  font-weight: 350;
   text-transform: uppercase;
   font-family: var(--body-font);
   position: relative;
@@ -281,12 +281,34 @@ button {
   border-bottom: 1px solid var(--border-color);
 }
 
-.floor-name{
+.floor-name {
+  font-weight: 350;
   font-size: 0.9rem !important;
-  pointer-events: none !important;
+  color: var(--text-color);
+  padding: 0 0.8rem;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   font-family: 'Roboto Mono', monospace;
-  font-weight: 350 !important;
+  pointer-events: none !important;
+  line-height: 1; /* Add consistent line height */
+  display: block; /* Ensure consistent display type */
+  text-align: center;
+  width: 100%;
+  margin: 0;
+  height: 16px; /* Fixed height to prevent shifts */
+}
+
+/* Special handling for non-expanded columns */
+.floor-plan-container:not(.has-expanded-image) .floor-name {
+  font-size: 0.85rem !important;
+}
+
+/* Fix for floor name in expanded container */
+.floor-plan-container.has-expanded-image .floor-name {
+  font-size: 0.9rem !important;
 }
 
 /* Floor Columns */
@@ -301,9 +323,6 @@ button {
 
 .floor-plan-container {
   flex: 1;
-  width: 20%;
-  max-width: 20%;
-  min-width: 20%;
   display: flex;
   flex-direction: column;
   border-right: 1px solid var(--border-color);
@@ -316,36 +335,57 @@ button {
   box-sizing: border-box !important;
   padding: 0 !important;
   margin: 0 !important;
-  transition: flex var(--floor-transition-speed) ease, 
-              width var(--floor-transition-speed) ease, 
-              max-width var(--floor-transition-speed) ease, 
-              min-width var(--floor-transition-speed) ease;
-  will-change: flex, width, max-width, min-width; /* Optimize for animation */
+  transition: flex var(--floor-transition-speed) ease, width var(--floor-transition-speed) ease;
+  will-change: flex, width; /* Optimize for animation */
 }
 
-/* Container with expanded image - increase width by 40% */
+/* Container with expanded image - take more space but not too much */
 .floor-plan-container.has-expanded-image {
-  flex: 1.4;
-  width: 28%; /* 40% increase from 20% */
-  max-width: 28%;
-  min-width: 28%;
+  flex: 1.5; /* 50% increase from original flex: 1 */
 }
 
 /* Reduce other containers when one has expanded image */
 .floor-columns:has(.has-expanded-image) .floor-plan-container:not(.has-expanded-image) {
-  flex: 0.9;
-  width: 18%; /* Slightly reduced from 20% */
-  max-width: 18%;
-  min-width: 18%;
+  flex: 0.875; /* Slightly reduced to accommodate expanded column */
 }
 
 /* For browsers that don't support :has */
 @supports not (selector(:has(*))) {
   .has-expanded-image-sibling {
-    flex: 0.9;
-    width: 18%;
-    max-width: 18%;
-    min-width: 18%;
+    flex: 0.875;
+  }
+}
+
+/* Responsive adjustments for different screen sizes */
+@media (max-width: 1200px) {
+  .floor-plan-container.has-expanded-image {
+    flex: 1.4; /* Slightly less expansion on medium screens */
+  }
+  
+  .floor-columns:has(.has-expanded-image) .floor-plan-container:not(.has-expanded-image) {
+    flex: 0.9; /* Give slightly more space to non-expanded columns */
+  }
+  
+  @supports not (selector(:has(*))) {
+    .has-expanded-image-sibling {
+      flex: 0.9;
+    }
+  }
+}
+
+@media (max-width: 900px) {
+  .floor-plan-container.has-expanded-image {
+    flex: 1.3; /* Even less expansion on smaller screens */
+  }
+  
+  .floor-columns:has(.has-expanded-image) .floor-plan-container:not(.has-expanded-image) {
+    flex: 0.925; /* More equal distribution on smaller screens */
+  }
+  
+  @supports not (selector(:has(*))) {
+    .has-expanded-image-sibling {
+      flex: 0.925;
+    }
   }
 }
 
@@ -368,7 +408,7 @@ button {
   cursor: pointer;
   padding: 15px 5px;
   background-color: var(--primary-bg);
-  transition: background-color 0.1s ease;
+  transition: background-color 0.1s ease, border-bottom 0.1s ease;
   border-bottom: 1px solid var(--border-color);
   width: 100% !important;
   box-sizing: border-box;
@@ -378,6 +418,7 @@ button {
   z-index: 10;
   position: sticky;
   top: 0;
+  height: 46px; /* Fixed height to prevent jumping */;
 }
 
 .floor-plan-item:hover, .floor-plan-item.expanded {
@@ -385,16 +426,9 @@ button {
 }
 
 .floor-plan-item.expanded {
-  border-bottom: 0px solid var(--border-color);
+  border-bottom-color: transparent; /* Use transparent instead of 0px to maintain height */
   position: sticky;
   top: 0;
-}
-
-.floor-name {
-  font-size: 1rem;
-  text-transform: uppercase;
-  text-align: center;
-  font-weight: 500;
 }
 
 /* Rooms section below floor plan navigation */
@@ -480,10 +514,20 @@ button {
 }
 
 .room-item {
-  padding: 8px 0;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  padding: 4px 12px;
   font-size: 0.8rem;
+  cursor: pointer;
+  position: relative;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   transition: background-color 0.2s ease;
+}
+
+/* Adjust room item text in non-expanded columns */
+.floor-plan-container:not(.has-expanded-image) .room-item {
+  font-size: 0.75rem;
 }
 
 .room-item:hover {
@@ -519,11 +563,13 @@ button {
   width: 100% !important;
   box-sizing: border-box;
   cursor: pointer;
-  transition: transform var(--image-transition-speed) ease,
-              box-shadow var(--image-transition-speed) ease;
-  will-change: transform, box-shadow;
+  transition: 
+    transform var(--image-transition-speed) ease,
+    box-shadow var(--image-transition-speed) ease,
+    margin var(--image-transition-speed) ease;
+  will-change: transform, box-shadow, margin;
+  max-width: 100%;
 }
-
 
 .photo-card.expanded {
   z-index: 5;
@@ -532,6 +578,8 @@ button {
 .photo-image {
   overflow: hidden;
   transition: max-height var(--image-transition-speed) ease;
+  position: relative;
+  width: 100%;
 }
 
 .photo-image img {
@@ -544,6 +592,40 @@ button {
   transition: transform var(--image-transition-speed) ease;
 }
 
+/* Apply optimal sizing for images in expanded column */
+.has-expanded-image .photo-image img {
+  max-height: 60vh; /* Slightly reduce from previous 80vh */
+  object-fit: contain;
+}
+
+/* Optimize expanded image display */
+.floor-plan-container.has-expanded-image .photo-card.expanded {
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.floor-plan-container.has-expanded-image .photo-card.expanded .photo-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-height: 60vh; /* Reduced from 70vh */
+  overflow: hidden;
+}
+
+/* Ensure image stays within column bounds */
+.floor-plan-container.has-expanded-image .photo-card.expanded .photo-image img {
+  max-width: 100%;
+  max-height: 60vh; /* Reduced from 70vh */
+  object-fit: contain;
+}
+
+/* Add highlighting to the expanded image - more subtle */
+.floor-plan-container.has-expanded-image .photo-card.expanded {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  background-color: #fff;
+  padding: 4px;
+  border-radius: 2px;
+}
 
 .photo-info {
   display: flex;
@@ -553,10 +635,19 @@ button {
   color: #888;
   transition: padding var(--image-transition-speed) ease,
               font-size var(--image-transition-speed) ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Better text handling in non-expanded columns */
+.floor-plan-container:not(.has-expanded-image) .photo-info {
+  max-width: 100%;
 }
 
 .photo-card.expanded .photo-info {
   font-size: 0.7rem;
+  white-space: normal; /* Allow wrapping in expanded view */
 }
 
 /* Loading indicator */

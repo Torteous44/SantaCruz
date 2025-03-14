@@ -40,13 +40,29 @@
 }
 
 .contribute-section h2 {
-  margin-bottom: 25px; /* Reduced margin */
+  margin-bottom: 25px;
   text-align: left;
-  font-size: 0.9rem; /* Smaller font size */
+  font-size: 0.875rem;
   letter-spacing: 2.5px;
   text-transform: uppercase;
+  font-weight: 300;
+  font-family: 'Libre Franklin', sans-serif;
+  position: relative;
+  display: inline-block;
+  color: rgba(0, 0, 0, 0.78);
+  transition: color 0.35s cubic-bezier(0.19, 1, 0.22, 1),
+              font-weight 0.3s ease;
+  padding-left: 1px;
+}
+
+.contribute-section.open h2 {
+  color: rgba(0, 0, 0, 0.92);
   font-weight: 400;
-  font-family: 'DM Sans', sans-serif;
+  transition-delay: 0.08s;
+}
+
+.contribute-section.closed h2 {
+  color: rgba(0, 0, 0, 0.6);
 }
 
 /* Removed redundant about-rules styling as it's now in global.css */

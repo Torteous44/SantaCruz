@@ -331,6 +331,17 @@ button {
   margin: 0 !important;
   transition: flex var(--floor-transition-speed) ease, width var(--floor-transition-speed) ease;
   will-change: flex, width; /* Optimize for animation */
+  
+  /* Hide scrollbar while maintaining scrolling functionality */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+/* Hide WebKit scrollbar (Chrome, Safari, Opera) */
+.floor-plan-container::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  background: transparent;
 }
 
 /* Container with expanded image - take more space but not too much */
@@ -587,39 +598,44 @@ button {
   max-width: 100%;
   object-fit: contain;
   box-sizing: border-box;
-  transition: transform var(--image-transition-speed) ease;
+  transition: all var(--image-transition-speed) ease;
 }
 
 /* Apply optimal sizing for images in expanded column */
 .has-expanded-image .photo-image img {
-  max-height: 60vh; /* Slightly reduce from previous 80vh */
+  max-height: none;
   object-fit: contain;
+  width: 100%;
+  transition: all var(--image-transition-speed) ease;
 }
 
 /* Optimize expanded image display */
 .floor-plan-container.has-expanded-image .photo-card.expanded {
-  max-width: 100%;
+  min-width: 100%;
   margin: 0 auto;
+  margin-bottom: 20px;
 }
 
 .floor-plan-container.has-expanded-image .photo-card.expanded .photo-image {
   display: flex;
   justify-content: center;
   align-items: center;
-  max-height: 60vh; /* Reduced from 70vh */
   overflow: hidden;
+  width: 100%;
+  transition: all var(--image-transition-speed) ease;
 }
 
-/* Ensure image stays within column bounds */
+/* Ensure image stays within column bounds and expands naturally by 40% */
 .floor-plan-container.has-expanded-image .photo-card.expanded .photo-image img {
   max-width: 100%;
-  max-height: 60vh; /* Reduced from 70vh */
+  width: auto;
+  height: auto;
   object-fit: contain;
+  transition: all var(--image-transition-speed) ease;
 }
 
 /* Add highlighting to the expanded image - more subtle */
 .floor-plan-container.has-expanded-image .photo-card.expanded {
-
   border-radius: 2px;
 }
 

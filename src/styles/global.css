@@ -301,16 +301,6 @@ button {
   height: 16px; /* Fixed height to prevent shifts */
 }
 
-/* Special handling for non-expanded columns */
-.floor-plan-container:not(.has-expanded-image) .floor-name {
-  font-size: 0.85rem !important;
-}
-
-/* Fix for floor name in expanded container */
-.floor-plan-container.has-expanded-image .floor-name {
-  font-size: 0.9rem !important;
-}
-
 /* Floor Columns */
 .floor-columns {
   display: flex;

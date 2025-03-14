@@ -299,6 +299,10 @@ button {
   width: 100%;
   margin: 0;
   height: 16px; /* Fixed height to prevent shifts */
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
 
 /* Floor Columns */

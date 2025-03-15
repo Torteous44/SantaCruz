@@ -144,7 +144,8 @@
   height: 42px; /* Fixed height for consistent look */
   transition: border-color 0.2s ease;
   color: var(--text-color);
-  -webkit-appearance: none; /* Remove default styling on iOS */
+  -webkit-appearance: none; 
+  appearance: none; 
   display: block;
   box-sizing: border-box;
 }

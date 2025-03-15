@@ -2,3 +2,4 @@
 User-agent: *
 Disallow:
 Sitemap: https://www.santacruzarchive.net/sitemap.xml
+Sitemap: https://www.santacruzarchive.net/image-sitemap.xml

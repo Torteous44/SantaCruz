@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://www.santacruzarchive.net/</loc>
+    <image:image>
+      <image:loc>https://www.santacruzarchive.net/assets/preview-image.jpg</image:loc>
+      <image:title>Convent of Santa Cruz la Real - Main View</image:title>
+      <image:caption>Historic Convent of Santa Cruz la Real in Segovia, Spain</image:caption>
+    </image:image>
+    <!-- Additional images would be listed here as they're added to the archive -->
+  </url>
+</urlset> 

@@ -1,252 +1,411 @@
 /* Contribute Section with Animation */
 .contribute-section {
   background-color: var(--primary-bg);
-  border-bottom: 1px solid var(--border-color);
   overflow: hidden;
-  transition: max-height var(--transition-speed) ease, 
-              padding var(--transition-speed) ease,
-              opacity var(--transition-speed) ease;
+  transition: all 0.2s cubic-bezier(0.33, 1, 0.68, 1);
   width: 100%;
+  will-change: max-height;
+  transform-origin: top;
 }
 
 .contribute-section.open {
-  max-height: 1000px; /* Large enough to contain form */
-  padding: 30px 20px; /* Reduced padding */
+  max-height: 1500px; /* Large enough to contain form */
+  padding: 0;
   opacity: 1;
+  visibility: visible;
 }
 
 .contribute-section.closed {
   max-height: 0;
-  padding: 0 20px;
+  padding: 0;
   opacity: 0;
   border-bottom: none;
   visibility: hidden; /* Hide content completely when closed */
 }
 
 .contribute-container {
-  max-width: 580px; /* Slightly reduced max-width */
+  max-width: 100%;
   margin: 0 auto;
-  opacity: 0;
-  transition: opacity 0.3s ease 0.1s; /* Slight delay to start after section begins opening */
-}
-
-.contribute-section.open .contribute-container {
-  opacity: 1;
+  display: grid;
+  grid-template-columns: minmax(325px, 1fr) 2fr; /* Increased width of left column for better balance */
+  grid-gap: 0;
 }
 
 /* Contribute Form */
 .contribute-form {
   width: 100%;
+  display: contents; /* Allow children to be placed according to the grid */
+}
+
+.contribute-header {
+  grid-column: 1;
+  padding: 30px;
+  border-right: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: flex-start;
 }
 
 .contribute-section h2 {
-  margin-bottom: 25px;
+  margin: 0;
   text-align: left;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   letter-spacing: 2.5px;
   text-transform: uppercase;
-  font-weight: 300;
-  font-family: 'Libre Franklin', sans-serif;
-  position: relative;
-  display: inline-block;
-  color: rgba(0, 0, 0, 0.78);
-  transition: color 0.35s cubic-bezier(0.19, 1, 0.22, 1),
-              font-weight 0.3s ease;
-  padding-left: 1px;
-}
-
-.contribute-section.open h2 {
-  color: rgba(0, 0, 0, 0.92);
   font-weight: 400;
-  transition-delay: 0.08s;
+  font-family: 'DM Sans', sans-serif;
+  color: var(--text-color);
 }
 
-.contribute-section.closed h2 {
-  color: rgba(0, 0, 0, 0.6);
+.form-fields {
+  grid-column: 2;
+  padding: 30px;
+  border-bottom: 1px solid var(--border-color);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: auto auto auto;
+  grid-gap: 30px;
 }
-
-/* Removed redundant about-rules styling as it's now in global.css */
 
 .success-message {
-  padding: 12px;
-  margin-bottom: 15px;
+  grid-column: 1 / -1;
+  padding: 20px 30px;
+  margin: 0;
   background-color: transparent;
   color: #155724;
-  border-left: 2px solid #155724;
-  font-size: 0.85rem; /* Smaller font */
+  border-bottom: 1px solid var(--border-color);
+  font-size: 0.75rem;
   letter-spacing: 0.5px;
 }
 
 .error-message {
-  padding: 12px;
-  margin-bottom: 15px;
+  grid-column: 1 / -1;
+  padding: 20px 30px;
+  margin: 0;
   background-color: transparent;
   color: #721c24;
-  border-left: 2px solid #721c24;
-  font-size: 0.85rem; /* Smaller font */
+  border-bottom: 1px solid var(--border-color);
+  font-size: 0.75rem;
   letter-spacing: 0.5px;
 }
 
 .retry-option {
-  margin-top: 10px;
+  margin-top: 15px;
   text-align: left;
 }
 
 .retry-button {
   background-color: transparent;
-  border: 1px solid #721c24;
-  color: #721c24;
-  padding: 5px 10px;
-  font-size: 0.75rem; /* Smaller font */
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  padding: 8px 16px;
+  font-size: 0.7rem;
   letter-spacing: 1px;
   text-transform: uppercase;
   cursor: pointer;
-  transition: all 0.3s ease;
-  margin-top: 5px;
+  transition: all 0.2s ease;
 }
 
 .retry-button:hover {
-  background-color: rgba(114, 28, 36, 0.1);
+  background-color: var(--secondary-bg);
 }
 
 .form-group {
-  margin-bottom: 22px; /* Slightly reduced margin */
+  margin-bottom: 0;
   position: relative;
-  transition: background-color 0.3s ease;
+  width: 100%;
+}
+
+.form-group.full-width {
+  grid-column: 1 / -1;
 }
 
 .form-group label {
   display: block;
-  margin-bottom: 6px; /* Reduced margin */
+  margin-bottom: 10px;
   font-weight: 400;
-  font-size: 0.70rem; /* Smaller font */
+  font-size: 0.70rem;
   letter-spacing: 1px;
   text-transform: uppercase;
   color: var(--text-color);
-  opacity: 0.8;
+  opacity: 0.9;
   font-family: 'DM Sans', sans-serif;
 }
 
 .form-group input,
 .form-group select {
   width: 100%;
-  padding: 8px 2px; /* Reduced padding */
-  border: none;
-  border-bottom: 1px solid var(--border-color);
+  padding: 10px;
+  border: 1px solid var(--border-color);
   font-family: inherit;
-  font-size: 0.9rem; /* Slightly smaller font */
+  font-size: 0.85rem;
   background-color: transparent;
-  transition: border-color 0.3s ease, background-color 0.3s ease;
-}
-
-.form-group input[type="file"] {
-  border: none;
-  padding: 3px 0; /* Reduced padding */
-  font-size: 0.85rem; /* Smaller font */
-  opacity: 1; /* Ensure file input is always visible */
-  transition: none; /* Remove transitions from file input */
+  border-radius: 0; /* Ensure boxy corners */
+  height: 42px; /* Fixed height for consistent look */
+  transition: border-color 0.2s ease;
+  color: var(--text-color);
+  -webkit-appearance: none; /* Remove default styling on iOS */
+  display: block;
+  box-sizing: border-box;
 }
 
 .form-group input:focus,
 .form-group select:focus {
   outline: none;
-  border-bottom: 1px solid var(--text-color);
+  border-color: var(--text-color);
   background-color: rgba(0, 0, 0, 0.02);
 }
 
 .form-group select {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
+  cursor: pointer;
   background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
   background-repeat: no-repeat;
-  background-position: right 2px center;
-  padding-right: 25px;
+  background-position: right 10px center;
+  padding-right: 30px;
+  appearance: none; /* Ensure consistent appearance across browsers */
+  -moz-appearance: none;
+}
+
+/* Hide default dropdown arrow in IE10+ */
+.form-group select::-ms-expand {
+  display: none;
 }
 
 .form-group .helper-text {
   display: block;
-  font-size: 0.75rem; /* Smaller font */
-  color: #666;
-  margin-top: 4px; /* Reduced margin */
-  font-style: italic;
-  opacity: 0.8;
+  font-size: 0.7rem;
+  color: var(--text-color);
+  margin-top: 5px;
+  opacity: 0.7;
 }
 
 .form-group textarea {
   min-height: 100px;
   resize: vertical;
   width: 100%;
-  padding: 8px 2px; /* Reduced padding */
-  border: none;
-  border-bottom: 1px solid var(--border-color);
+  padding: 10px;
+  border: 1px solid var(--border-color);
   font-family: inherit;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   background-color: transparent;
+  border-radius: 0;
 }
 
-.form-submit {
-  text-align: center;
-  margin-top: 25px; /* Reduced margin */
+.form-group.form-submit {
+  grid-column: 1;
+  grid-row: 3;
+  margin-top: 0;
+  display: flex;
+
 }
 
-.form-submit button {
+.form-group.form-submit button {
   width: 100%;
-  padding: 10px 0;
+  padding: 0 30px;
   background-color: transparent;
   color: var(--text-color);
   border: 1px solid var(--border-color);
-  font-size: 0.7rem; /* Smaller font */
+  font-size: 0.7rem;
   letter-spacing: 1.5px;
   text-transform: uppercase;
   transition: all 0.2s ease;
   cursor: pointer;
+  border-radius: 0;
+  height: 42px;
+  box-sizing: border-box;
 }
 
-.form-submit button:hover {
+.form-group.form-submit button:hover {
   background-color: var(--secondary-bg);
-  color: var(--text-color);
-  font-weight: 500; 
 }
 
-.form-submit button:disabled {
+.form-group.form-submit button:disabled {
   border-color: #ccc;
   color: #ccc;
   cursor: not-allowed;
 }
 
-/* Mobile view adjustments */
-@media (max-width: 600px) {
-  .contribute-section.open {
-    padding: 20px 15px; /* Further reduced padding on mobile */
-  }
-  
-  .form-group label {
-    font-size: 0.75rem; /* Even smaller on mobile */
-  }
-  
-  /* Removed redundant about-rules mobile styling as it's now in global.css */
+/* Custom file input styling for minimal, boxy design */
+.form-group.file-input {
+  margin-top: 0;
+}
+
+.form-group .file-input-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.form-group .file-input-button {
+  display: flex;
+  width: 100%;
+  height: 42px;
+  padding: 0 15px;
+  background-color: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.form-group .file-input-button:hover {
+  background-color: var(--secondary-bg);
+}
+
+.form-group input[type="file"] {
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 42px;
+  cursor: pointer;
+  z-index: 2;
+  margin: 0;
+  padding: 0;
+}
+
+.form-group .file-name-display {
+  margin-top: 0;
+  font-size: 0.75rem;
+  color: var(--text-color);
+  opacity: 0.9;
+  text-align: left;
+  padding: 0 10px;
+  border: 1px solid var(--border-color);
+  border-top: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
 }
 
 .image-preview {
-  margin-top: 12px; /* Reduced margin */
-  max-width: 100%;
-  border: none;
+  margin-top: 20px;
+  width: 100%;
+  border: 1px solid var(--border-color);
   overflow: hidden;
-  transition: all 0.3s ease;
+  background-color: transparent;
+  position: relative;
 }
 
 .image-preview img {
   width: 100%;
   height: auto;
   display: block;
-  max-height: 220px; /* Slightly reduced max height */
+  max-height: 240px;
   object-fit: contain;
-  background-color: transparent;
-  opacity: 0.9;
-  transition: opacity 0.3s ease;
+  opacity: 1;
+  transition: opacity 0.2s ease;
 }
 
-.image-preview img:hover {
+.remove-image-button {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  background-color: var(--primary-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  font-size: 0.7rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  opacity: 0.9;
+}
+
+.remove-image-button:hover {
+  background-color: var(--secondary-bg);
   opacity: 1;
+}
+
+/* Mobile adaptations */
+@media (max-width: 900px) {
+  .contribute-container {
+    grid-template-columns: 1fr; /* Stack on smaller screens */
+  }
+  
+  .contribute-header {
+    grid-column: 1;
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+    padding: 25px;
+  }
+  
+  .form-fields {
+    grid-column: 1;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto auto auto; /* Add another row for proper ordering */
+    padding: 25px;
+    grid-gap: 25px;
+    border-bottom: 1px solid var(--border-color);
+  }
+  
+  .form-group.full-width {
+    grid-column: 1;
+  }
+  
+  /* Photo field should have a specific position in the grid */
+  .form-group.file-input {
+    grid-row: 4; /* Position photo selection before submit button */
+    grid-column: 1;
+  }
+  
+  .form-group.form-submit {
+    grid-column: 1;
+    grid-row: 5; /* Position submit button after photo selection */
+    padding: 0;
+  }
+  
+  .success-message, 
+  .error-message {
+    padding: 20px 25px;
+  }
+}
+
+@media (max-width: 600px) {
+  .contribute-header {
+    padding: 20px;
+  }
+  
+  .form-fields {
+    padding: 20px;
+    grid-gap: 20px;
+  }
+  
+  .form-group .file-input-button {
+    height: 38px;
+    font-size: 0.7rem;
+    padding: 0 10px;
+  }
+  
+  .form-group input[type="file"] {
+    height: 38px;
+  }
+  
+  .form-group .file-name-display {
+    height: 36px;
+  }
+  
+  .success-message, 
+  .error-message {
+    padding: 15px 20px;
+  }
+  
+  .form-group input,
+  .form-group select,
+  .form-group.form-submit button {
+    height: 38px;
+  }
 } 

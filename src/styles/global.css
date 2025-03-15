@@ -170,114 +170,192 @@ button {
 
 /* About Section with Animation */
 .about-section {
-  background-color: transparent;
+  background-color: var(--primary-bg);
   overflow: hidden;
-  transition: max-height var(--transition-speed) ease, 
-              padding var(--transition-speed) ease,
-              opacity var(--transition-speed) ease;
+  transition: all 0.2s cubic-bezier(0.33, 1, 0.68, 1);
   width: 100%;
   position: relative;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 0;
+  will-change: max-height;
+  transform-origin: top;
 }
 
 .about-section.open {
-  max-height: 1500px; /* Large enough to contain content */
-  padding: 40px 0;
+  max-height: 2000px; /* Large enough to contain content */
   opacity: 1;
-  background-color: var(--primary-bg);
   border-bottom: 1px solid var(--border-color);
 }
 
 .about-section.closed {
   max-height: 0;
-  padding: 0;
   opacity: 0;
   border-bottom: none;
+  padding: 0;
 }
 
 .about-content {
   max-width: 1200px;
   margin: 0 auto;
-  display: flex;
-  gap: 40px;
-  width: 50%;
-  padding: 0 20px;
+  width: 100%;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-gap: 0;
 }
 
-
-.about-content h2 {
-  text-transform: uppercase;
-  font-size: 0.8rem;
-  margin: 0px 0 10px;
-  font-weight: 500;
-  font-family: 'DM Sans', sans-serif;
+.about-left {
+  grid-column: 1 / 13;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-gap: 0;
 }
 
-.about-content h3 {
+/* Remove the title section since we're moving the header into the content area */
+.about-title {
+  display: none;
+}
+
+.about-main {
+  grid-column: 1 / 7;
+  border-right: 1px solid var(--border-color);
+  padding: 40px;
+  position: relative;
+}
+
+/* Remove the h2 styling since we no longer have the header */
+.about-main p {
+  font-size: 0.75rem;
+  line-height: 1.6;
+  margin-bottom: 0;
+  max-width: 90%;
+}
+
+.about-disclaimer {
+  grid-column: 7 / 13;
+  padding: 40px;
+  position: relative;
+}
+
+.about-disclaimer h3 {
   text-transform: uppercase;
-  font-size: 0.8rem;
-  margin: 20px 0 10px;
-  font-weight: 500;
+  font-size: 0.7rem;
+  font-weight: 400;
+  letter-spacing: 2px;
   font-family: 'DM Sans', sans-serif;
   user-select: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
+  display: block;
+  margin-bottom: 25px;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 15px;
+}
+
+.about-rules {
+  grid-column: 1 / 13;
+  margin-top: 0;
+  padding: 0;
+  border-top: 1px solid var(--border-color);
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-gap: 0;
+}
+
+.about-rules-title {
+  grid-column: 1 / 4;
+  padding: 40px;
+  border-right: 1px solid var(--border-color);
+}
+
+.about-rules-title h3 {
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  font-weight: 400;
+  letter-spacing: 2px;
+  font-family: 'DM Sans', sans-serif;
+  margin: 0;
+}
+
+.about-rules-content {
+  grid-column: 4 / 13;
+  padding: 40px;
 }
 
 .about-content h4 {
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   margin: 15px 0 5px;
-  font-weight: 400;
+  font-weight: 500;
   font-family: 'Libre Franklin', sans-serif;
 }
 
 .about-content p {
+  font-size: 0.75rem;
+  line-height: 1.6;
   margin-bottom: 15px;
-  font-size: 0.8rem;
-  line-height: 1.5;
 }
 
-.about-disclaimer {
-  margin-top: 30px;
-}
-
-.about-rules {
-  margin-top: 30px;
-  font-size: 0.8rem;
+.about-disclaimer p:last-child {
+  margin-bottom: 0;
 }
 
 .about-rules ul {
   list-style: none;
   padding: 0;
   margin: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 15px;
 }
 
 .about-rules li {
   position: relative;
-  padding-left: 20px;
-  margin-bottom: 12px;
-  font-size: 0.8rem;
-  line-height: 1.5;
+  padding: 15px;
+  font-size: 0.75rem;
+  border: 1px solid var(--border-color);
+  margin-bottom: 0;
+  font-size: 0.65rem;
 }
 
 .about-rules li:before {
-  content: "—";
-  position: absolute;
-  left: 0;
-  color: var(--text-color);
-  opacity: 0.7;
+  display: none;
 }
 
-.about-rules li:last-child {
-  margin-bottom: 0;
+/* Mobile adaptations */
+@media (max-width: 900px) {
+  .about-main, 
+  .about-disclaimer,
+  .about-rules-title,
+  .about-rules-content {
+    padding: 30px;
+  }
+  
+  .about-main, .about-disclaimer {
+    grid-column: 1 / 13;
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+  }
+  
+  .about-rules-title, .about-rules-content {
+    grid-column: 1 / 13;
+    border-right: none;
+  }
+  
+  .about-rules-title {
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 15px;
+  }
+  
+  .about-rules ul {
+    grid-template-columns: 1fr;
+  }
 }
 
-.about-content ul {
-  list-style: none;
-}
-
-.about-content li {
-  margin-bottom: 5px;
+@media (max-width: 600px) {
+  .about-main, 
+  .about-disclaimer,
+  .about-rules-title,
+  .about-rules-content {
+    padding: 20px;
+  }
 }
 
 /* Floor Plans Navigation */

@@ -3,16 +3,18 @@ import { AboutSectionProps } from "../../types";
 
 /**
  * About section component for displaying information about the archive
+ * Redesigned with a minimal, boxy, alternative layout
  */
 const AboutSection: React.FC<AboutSectionProps> = ({ isOpen, content }) => {
   return (
     <section className={`about-section ${isOpen ? "open" : "closed"}`}>
       <div className="about-content">
         <div className="about-left">
-          <h2>ABOUT</h2>
-          {content.paragraphs.map((paragraph, index) => (
-            <p key={index}>{paragraph}</p>
-          ))}
+          <div className="about-main">
+            {content.paragraphs.map((paragraph, index) => (
+              <p key={index}>{paragraph}</p>
+            ))}
+          </div>
 
           <div className="about-disclaimer">
             <h3>DISCLAIMER</h3>
@@ -31,18 +33,22 @@ const AboutSection: React.FC<AboutSectionProps> = ({ isOpen, content }) => {
           </div>
 
           <div className="about-rules">
-            <h3>RULES FOR CONTRIBUTING</h3>
-            <ul>
-              <li>Photos must meet a minimal aesthetic standard.</li>
-              <li>Images should focus on the architecture and space.</li>
-              <li>
-                Artistic interpretation is welcome, but clarity is essential.
-              </li>
-              <li>
-                Images will be reviewed by the site administrators before being
-                published.
-              </li>
-            </ul>
+            <div className="about-rules-title">
+              <h3>RULES</h3>
+            </div>
+            <div className="about-rules-content">
+              <ul>
+                <li>Photos must meet a minimal aesthetic standard.</li>
+                <li>Images should focus on the architecture and space.</li>
+                <li>
+                  Artistic interpretation is welcome, but clarity is essential.
+                </li>
+                <li>
+                  Images will be reviewed by the site administrators before
+                  being published.
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>

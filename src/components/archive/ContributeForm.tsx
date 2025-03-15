@@ -18,6 +18,7 @@ const ContributeForm: React.FC<
   const [localImageUrl, setLocalImageUrl] = useState<string | null>(null);
   const [isServerError, setIsServerError] = useState(false);
   const [retryCount, setRetryCount] = useState(0);
+  const [fileName, setFileName] = useState("No file selected");
 
   // Update available rooms when floor selection changes
   useEffect(() => {
@@ -40,11 +41,13 @@ const ContributeForm: React.FC<
     if (imageFile) {
       const url = URL.createObjectURL(imageFile);
       setLocalImageUrl(url);
+      setFileName(imageFile.name);
       return () => {
         URL.revokeObjectURL(url);
       };
     } else {
       setLocalImageUrl(null);
+      setFileName("No file selected");
     }
   }, [imageFile]);
 
@@ -206,13 +209,36 @@ const ContributeForm: React.FC<
     }
   };
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files && files.length > 0) {
+      setImageFile(files[0]);
+    } else {
+      setImageFile(null);
+    }
+  };
+
+  const handleRemoveImage = () => {
+    setImageFile(null);
+    setLocalImageUrl(null);
+    setFileName("No file selected");
+
+    // Reset the file input value
+    const fileInput = document.getElementById("imageFile") as HTMLInputElement;
+    if (fileInput) {
+      fileInput.value = "";
+    }
+  };
+
   return (
     <section
       id="contribute"
       className={`contribute-section ${isOpen ? "open" : "closed"}`}
     >
       <div className="contribute-container">
-        <h2>CONTRIBUTE</h2>
+        <div className="contribute-header">
+          <h2>CONTRIBUTE</h2>
+        </div>
 
         {success && (
           <div className="success-message">
@@ -235,82 +261,98 @@ const ContributeForm: React.FC<
         )}
 
         <form onSubmit={handleSubmit} className="contribute-form">
-          <div className="form-group">
-            <label htmlFor="contributor">Your Name *</label>
-            <input
-              type="text"
-              id="contributor"
-              value={contributor}
-              onChange={(e) => setContributor(e.target.value)}
-              required
-            />
-          </div>
+          <div className="form-fields">
+            <div className="form-group">
+              <label htmlFor="contributor">Your Name *</label>
+              <input
+                type="text"
+                id="contributor"
+                value={contributor}
+                onChange={(e) => setContributor(e.target.value)}
+                required
+                placeholder=""
+              />
+            </div>
 
-          <div className="form-group">
-            <label htmlFor="floorId">Floor *</label>
-            <select
-              id="floorId"
-              value={floorId}
-              onChange={(e) => setFloorId(e.target.value)}
-              required
-            >
-              <option value="">Select a floor</option>
-              {floors.map((floor) => (
-                <option key={floor.id} value={floor.id}>
-                  {floor.name}
-                </option>
-              ))}
-            </select>
-          </div>
+            <div className="form-group">
+              <label htmlFor="floorId">Floor *</label>
+              <select
+                id="floorId"
+                value={floorId}
+                onChange={(e) => setFloorId(e.target.value)}
+                required
+              >
+                <option value="">Select a floor</option>
+                {floors.map((floor) => (
+                  <option key={floor.id} value={floor.id}>
+                    {floor.name}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-          <div className="form-group">
-            <label htmlFor="roomId">Room {floorId && "*"}</label>
-            <select
-              id="roomId"
-              value={roomId}
-              onChange={(e) => setRoomId(e.target.value)}
-              disabled={!floorId || availableRooms.length === 0}
-              required={!!(floorId && availableRooms.length > 0)}
-            >
-              <option value="">Select a room</option>
-              {availableRooms.map((room) => (
-                <option key={room.id} value={room.id}>
-                  {room.name}
-                </option>
-              ))}
-            </select>
-            {floorId && availableRooms.length === 0 && (
-              <small className="helper-text">
-                No rooms available for this floor
-              </small>
-            )}
-          </div>
+            <div className="form-group">
+              <label htmlFor="roomId">
+                Room {floorId && availableRooms.length > 0 && "*"}
+              </label>
+              <select
+                id="roomId"
+                value={roomId}
+                onChange={(e) => setRoomId(e.target.value)}
+                disabled={!floorId || availableRooms.length === 0}
+                required={!!(floorId && availableRooms.length > 0)}
+              >
+                <option value="">Select a room</option>
+                {availableRooms.map((room) => (
+                  <option key={room.id} value={room.id}>
+                    {room.name}
+                  </option>
+                ))}
+              </select>
+              {floorId && availableRooms.length === 0 && (
+                <span className="helper-text">
+                  No rooms available for this floor
+                </span>
+              )}
+            </div>
 
-          <div className="form-group">
-            <label htmlFor="imageFile">Photo *</label>
-            <input
-              type="file"
-              id="imageFile"
-              accept="image/*"
-              onChange={(e) =>
-                setImageFile(e.target.files ? e.target.files[0] : null)
-              }
-              required
-            />
-            <small className="helper-text">
-              Supported formats: JPEG, PNG, GIF, WebP, SVG (max 10MB)
-            </small>
-            {localImageUrl && (
-              <div className="image-preview">
-                <img src={localImageUrl} alt="Preview" />
+            <div className="form-group file-input">
+              <label htmlFor="imageFile">Photo *</label>
+              <div className="file-input-container">
+                <div className="file-input-button">SELECT PHOTO</div>
+                <input
+                  type="file"
+                  id="imageFile"
+                  accept="image/*"
+                  onChange={handleFileChange}
+                  required
+                />
+                <div className="file-name-display">
+                  {fileName || "No file selected"}
+                </div>
               </div>
-            )}
-          </div>
+              <span className="helper-text">
+                Supported formats: JPEG, PNG, GIF, WebP, SVG (max 10MB)
+              </span>
+              {localImageUrl && (
+                <div className="image-preview">
+                  <img src={localImageUrl} alt="Preview" />
+                  <button
+                    type="button"
+                    className="remove-image-button"
+                    onClick={handleRemoveImage}
+                  >
+                    X
+                  </button>
+                </div>
+              )}
+            </div>
 
-          <div className="form-submit">
-            <button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? "SUBMITTING..." : "SUBMIT PHOTO"}
-            </button>
+            <div className="form-group form-submit">
+              <button type="submit" disabled={isSubmitting}>
+                {isSubmitting ? "SUBMITTING..." : "SUBMIT PHOTO"}
+              </button>
+            </div>
           </div>
         </form>
       </div>

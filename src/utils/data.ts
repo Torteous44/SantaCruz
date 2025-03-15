@@ -76,7 +76,7 @@ export const floors: Floor[] = [
 export const aboutContent: AboutContent = {
   title: 'About the Santa Cruz Photographic Archive',
   paragraphs: [
-    "This archive is dedicated to the Convent of Santa Cruz la Real in Segovia, Spain—a former Dominican monastery that now forms part of IE University's campus. This project captures the evolving character of this historic site through community contributions, preserving its unique atmosphere.",
+    "This archive is dedicated to the Convent of Santa Cruz la Real in Segovia, Spain—a former Dominican monastery that now forms part of IE University's campus. Considered to be the first Dominican house established on the Iberian Peninsula, the site has a rich history dating back to 1217 when the first preachers arrived in Segovia. The convent was rebuilt in the 13th century and later flourished under the Catholic Kings, with the sacred cave of Santo Domingo remaining as a center of devotion and pilgrimage. This project captures the evolving character of this historic site through community contributions, preserving its unique atmosphere.",
   ],
 };
 

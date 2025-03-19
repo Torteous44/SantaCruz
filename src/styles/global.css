@@ -571,7 +571,7 @@ button {
 }
 /* Remove the fixed padding-top that was causing overlap */
 .floor-photos {
-  padding: 10px;
+  padding: 12.5px;
   padding-top: 10px;
   min-height: 100px;
   z-index: 1;
@@ -739,11 +739,6 @@ button {
   height: auto;
   object-fit: contain;
   transition: all var(--image-transition-speed) ease;
-}
-
-/* Add highlighting to the expanded image - more subtle */
-.floor-plan-container.has-expanded-image .photo-card.expanded {
-  border-radius: 2px;
 }
 
 .photo-info {

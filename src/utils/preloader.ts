@@ -1,71 +1,10 @@
 import { Photo } from '../types';
 import { floors } from './data';
+import { retryFetch } from './retryFetch';
 
 // Stores preloaded photo data
 let preloadedPhotos: Photo[] | null = null;
 let isLoading = false;
-const CACHE_KEY = 'santa_cruz_photos_cache';
-const CACHE_EXPIRY = 30 * 60 * 1000; // 30 minutes in milliseconds
-
-/**
- * Checks if the cached data is still valid (not expired)
- */
-const isCacheValid = (timestamp: number): boolean => {
-  const now = Date.now();
-  return now - timestamp < CACHE_EXPIRY;
-};
-
-/**
- * Try to load photos from localStorage cache first
- */
-const loadFromCache = (): Photo[] | null => {
-  try {
-    const cachedData = localStorage.getItem(CACHE_KEY);
-    if (cachedData) {
-      const { photos, timestamp } = JSON.parse(cachedData);
-      
-      // Validate cache freshness
-      if (isCacheValid(timestamp)) {
-        console.log(`Using ${photos.length} photos from cache`);
-        return photos;
-      } else {
-        console.log('Cache expired, fetching fresh data');
-        localStorage.removeItem(CACHE_KEY);
-      }
-    }
-  } catch (error) {
-    console.warn('Error reading from cache:', error);
-    // Clear potentially corrupted cache
-    try {
-      localStorage.removeItem(CACHE_KEY);
-    } catch (e) {
-      // Ignore errors when clearing cache
-    }
-  }
-  return null;
-};
-
-/**
- * Save photos to localStorage cache
- */
-const saveToCache = (photos: Photo[]): void => {
-  try {
-    const cacheData = {
-      photos,
-      timestamp: Date.now()
-    };
-    localStorage.setItem(CACHE_KEY, JSON.stringify(cacheData));
-    console.log(`Saved ${photos.length} photos to cache`);
-  } catch (error) {
-    console.warn('Error saving to cache:', error);
-    // Possible localStorage full - try to clear it
-    try {
-      localStorage.removeItem(CACHE_KEY);
-    } catch (e) {
-      // Ignore errors when clearing cache
-    }
-  }
-};
 
 /**
  * Start preloading images after data is loaded to speed up rendering
@@ -110,17 +49,6 @@ export const preloadPhotos = async (): Promise<Photo[]> => {
     return Promise.resolve(preloadedPhotos);
   }
   
-  // Try to load from cache first
-  const cachedPhotos = loadFromCache();
-  if (cachedPhotos) {
-    preloadedPhotos = cachedPhotos;
-    
-    // Start preloading images even when using cached data
-    setTimeout(() => preloadImages(cachedPhotos), 500);
-    
-    return Promise.resolve(cachedPhotos);
-  }
-  
   // If already loading, return a promise that will resolve when loading completes
   if (isLoading) {
     return new Promise((resolve) => {
@@ -149,17 +77,17 @@ export const preloadPhotos = async (): Promise<Photo[]> => {
 
     // Add a timeout to the fetch to avoid waiting too long
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+    const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 second timeout (increased to allow for retries)
     
     try {
-      const response = await fetch(`${apiUrl}/photos/approved`, {
+      // Use retryFetch instead of fetch for automatic retry with exponential backoff
+      const response = await retryFetch(`${apiUrl}/photos/approved`, {
         method: "GET",
         headers: {
           Accept: "application/json",
-          "Cache-Control": "no-cache",
         },
         signal: controller.signal
-      });
+      }, 3); // 3 retries (4 total attempts) with default backoff
       
       clearTimeout(timeoutId);
 
@@ -169,9 +97,6 @@ export const preloadPhotos = async (): Promise<Photo[]> => {
 
       const photos: Photo[] = await response.json();
       preloadedPhotos = photos;
-      
-      // Save to cache for future visits
-      saveToCache(photos);
       
       console.log(`Preloaded ${photos.length} photos before app render`);
       

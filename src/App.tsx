@@ -24,6 +24,7 @@ import {
   getPreloadedPhotos,
   getUpdatedFloorsWithPhotos,
 } from "./utils/preloader";
+import { retryFetch } from "./utils/retryFetch";
 
 function App() {
   // State for toggling the About and Contribute sections
@@ -108,13 +109,17 @@ function App() {
           process.env.REACT_APP_API_URL || "http://localhost:5001/api";
 
         try {
-          const response = await fetch(`${apiUrl}/photos/approved`, {
-            method: "GET",
-            headers: {
-              Accept: "application/json",
-              "Cache-Control": "no-cache",
+          // Use retryFetch with automatic retry logic for 503 errors
+          const response = await retryFetch(
+            `${apiUrl}/photos/approved`,
+            {
+              method: "GET",
+              headers: {
+                Accept: "application/json",
+              },
             },
-          });
+            3
+          ); // Use 3 retries with default backoff
 
           if (!response.ok) {
             throw new Error(
@@ -177,7 +182,8 @@ function App() {
         if (
           err.message &&
           (err.message.includes("Status 404") ||
-            err.message.includes("Invalid JSON"))
+            err.message.includes("Invalid JSON") ||
+            err.message.includes("Status 503")) // Also handle 503 errors silently
         ) {
           console.log(
             "API endpoint issue, using initial floor data as fallback"

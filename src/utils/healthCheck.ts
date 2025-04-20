@@ -32,4 +32,4 @@ export async function checkHealth(retryCount = 0): Promise<HealthCheckResponse> 
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     throw new Error(`Health check failed after ${MAX_RETRIES} attempts: ${errorMessage}`);
   }
-} 
+}

@@ -106,7 +106,8 @@ function App() {
 
         // Use environment variable for API URL with fallback
         const apiUrl =
-          process.env.REACT_APP_API_URL || "http://localhost:5001/api";
+          process.env.REACT_APP_API_URL ||
+          "https://santacruzservice.fly.dev/api";
 
         try {
           // Use retryFetch with automatic retry logic for 503 errors

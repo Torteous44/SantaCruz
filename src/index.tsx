@@ -15,17 +15,16 @@ const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 
-// Perform health check before mounting the app
+// Mount app immediately instead of waiting for health check
+root.render(<App />);
+
+// Still perform health check but don't wait for it to mount the app
 checkHealth()
   .then((healthData) => {
-    root.render(
-      <React.StrictMode>
-        <App />
-      </React.StrictMode>
-    );
+    console.log("Health check passed:", healthData);
   })
   .catch((error) => {
-    console.error("Failed to start application:", error);
+    console.error("Health check failed:", error);
     // You might want to show an error message to the user here
   });
 
